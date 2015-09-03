@@ -14,3 +14,4 @@ Take a look at the [**examples**](https://github.com/cschuller/gamesense-client/
     - Use url parameter of ```gamesense.Endpoint``` instead.
 - Ranged colors for event handlers not supported.
 - Releasing npm package
+- The Escape key ```gamesens.RgbPerKeyZone.ESCAPE``` does not work. Seams to be a bug of the SteelSeries(TM) Engine 3.4.3 or the Apex M800 Firmware 1.24.0.0
