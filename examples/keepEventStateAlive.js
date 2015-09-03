@@ -61,7 +61,7 @@ function bindIsStartedHandler() {
     client.bindEvent(isStartedEvent, [functionKeysEventHandler]).then(startGame);
 
     // Use heartbeat to keep the current state alive.
-    // client.startHeartbeatSending();
+    client.startHeartbeatSending();
 }
 
 function startGame() {
