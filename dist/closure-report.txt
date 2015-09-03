@@ -1,0 +1,75 @@
+.\dist\gamesense-client.js:216: WARNING - Property request never defined on http
+            var request = http.request(options, function handleResponse(response) {
+                               ^
+
+.\dist\gamesense-client.js:217: WARNING - Property setEncoding never defined on response
+                response.setEncoding('utf8');
+                         ^
+
+.\dist\gamesense-client.js:218: WARNING - Property on never defined on response
+                response.on('data', function handleOnData(chunk) {
+                         ^
+
+.\dist\gamesense-client.js:219: WARNING - Property statusCode never defined on response
+                    console.log(response.statusCode + ' < ' + chunk);
+                                         ^
+
+.\dist\gamesense-client.js:349: WARNING - assignment to property displayName of gamesense.Game
+found   : (string|undefined)
+required: string
+    this.displayName = displayName;
+    ^
+
+.\dist\gamesense-client.js:352: WARNING - Bad type annotation. Unknown type lib.GameColor
+     * @type {lib.GameColor}
+              ^
+
+.\dist\gamesense-client.js:422: WARNING - element RGB_PER_KEY_ZONE does not exist on this enum
+    this.deviceType = deviceType || gamesense.DeviceType.RGB_PER_KEY_ZONE;
+                                    ^
+
+.\dist\gamesense-client.js:467: WARNING - assignment to property zero of gamesense.GradientColor
+found   : (gamesense.Color|null)
+required: number
+    this.zero = zero;
+    ^
+
+.\dist\gamesense-client.js:472: WARNING - assignment to property hundred of gamesense.GradientColor
+found   : (gamesense.Color|null)
+required: number
+    this.hundred = hundred;
+    ^
+
+.\dist\gamesense-client.js:644: WARNING - assignment to property RgbZone of gamesense
+found   : Object
+required: Object
+gamesense.RgbZone = {
+^
+
+.\dist\gamesense-client.js:644: WARNING - variable gamesense.RgbZone redefined with type enum{gamesense.RgbZone}, original definition at .\dist\gamesense-client.js:485 with type enum{gamesense.RgbZone}
+gamesense.RgbZone = {
+^
+
+.\dist\gamesense-client.js:645: WARNING - variable gamesense.RgbZone.ONE redefined, original definition at .\dist\gamesense-client.js:486
+    ONE: 'one',
+    ^
+
+.\dist\gamesense-client.js:669: WARNING - assignment to property url of gamesense.ServerEndpoint
+found   : (string|undefined)
+required: string
+    this.url = url;
+    ^
+
+.\dist\gamesense-client.js:705: WARNING - Property env never defined on process
+            return process.env[index];
+                           ^
+
+.\dist\gamesense-client.js:708: WARNING - Property readFileSync never defined on fs
+        var corePropsJson = fs.readFileSync(absoluteCorePropsFilename, {encoding: 'utf-8'});
+                               ^
+
+.\dist\gamesense-client.js:733: WARNING - Function parseInt: called with 1 argument(s). Function requires at least 2 argument(s) and no more than 2 argument(s).
+        self.port = parseInt(match[4].replace(':', ''));
+                    ^
+
+0 error(s), 16 warning(s), 92.5% typed
