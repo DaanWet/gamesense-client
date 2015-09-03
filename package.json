@@ -13,8 +13,7 @@
     "grunt-contrib-nodeunit": "~0.2.0",
     "grunt-contrib-uglify": "~0.2.2",
     "grunt-eslint": "^1.0.1",
-    "load-grunt-tasks": "^3.1.0",
-    "underscore": "1.8.3"
+    "load-grunt-tasks": "^3.1.0"
   },
   "description": "A JavaScript GameSense(TM) Client",
   "main": "dist/gamesense-client.js",
@@ -25,7 +24,8 @@
   "author": "Christian Schuller",
   "license": "MIT",
   "dependencies": {
-    "promise": "^7.0.4"
+    "promise": "^7.0.4",
+    "underscore": "1.8.3"
   },
   "files": [
     "dist"
