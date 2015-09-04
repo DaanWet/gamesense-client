@@ -1,7 +1,7 @@
 /**
  * gamesense-client
- * @version 0.1.0-SNAPSHOT (2015-09-04)
- * @author Christian Schuller
+ * @version 0.2.0-SNAPSHOT (2015-09-04)
+ * @author Christian Schuller <cschuller@servusalps.com>
  * @license MIT
  */
 /*global define:true, exports:true, module:true */
