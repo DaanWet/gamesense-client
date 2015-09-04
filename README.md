@@ -28,9 +28,6 @@ Every example can be run alone, for example:
 Examples are not part of the ```npm``` package.
 
 ## Open Issues
-- Auto discovery of the GameSense(TM) engine does not work on OSX.
-    - Pull-Request is highly welcome, see TODO of the ```Endpoint```
-    - Use the ```url``` parameter of ```gamesense.Endpoint``` instead.
 - The Escape key ```gamesense.RgbPerKeyZone.ESCAPE``` does not work. Seams to be a bug of the SteelSeries(TM) Engine 3.4.3 or the Apex M800 Firmware 1.24.0.0
 
 ## Developing a game or app
