@@ -1,7 +1,8 @@
 //
 // Example: Progress Animation with color change
-// Creates a progress in the A key row.
-// Starting with a red color for 0% and a blue color for 100%
+//
+// Creates a progress bar in the A key row.
+// Using a gradient color effect, starting with a red color for 0% and a blue color for 100%
 //
 
 /**
@@ -25,7 +26,7 @@ endpoint.discoverUrl();
  * Setups our unique game.
  * @type {gamesense.Game}
  */
-var game = new gamesense.Game('TEST', 'A TEST GAME', gamesense.GameColor.SILVER);
+var game = new gamesense.Game('EXAMPLE_TEST', 'A EXAMPLE GAME', gamesense.GameColor.SILVER);
 
 /**
  * Create a client for our game and the local GameSense(TM) Engine web server.
@@ -34,26 +35,33 @@ var game = new gamesense.Game('TEST', 'A TEST GAME', gamesense.GameColor.SILVER)
 var client = new gamesense.GameClient(game, endpoint);
 
 /**
- * Let's register our game.
- */
-client.registerGame();
-
-/**
- * Setup of our blink event.
+ * Setup the progress event.
  * @type {gamesense.GameEvent}
  */
 var progressEvent = new gamesense.GameEvent('PROGRESS');
 progressEvent.maxValue = 100;
 
 /**
- * Register our blink event
+ * Let's register our game.
  */
-client.registerEvent(progressEvent).then(bindProgressKeyboardHandler);
+client.registerGame()
+    .then(registerProgressEvent)
+    .then(bindProgressHandler)
+    .then(startProgressUpdates);
 
 /**
- * Binds the blink handler to the keyboard device.
+ * Register event.
+ * @returns {Promise}
  */
-function bindProgressKeyboardHandler() {
+function registerProgressEvent() {
+    return client.registerEvent(progressEvent);
+}
+
+/**
+ * Binds the progress handler.
+ * @returns {Promise}
+ */
+function bindProgressHandler() {
     var blue = new gamesense.Color(0, 0, 255);
     var red = new gamesense.Color(255, 0, 0);
     var gradient = new gamesense.GradientColor(red, blue);
@@ -62,19 +70,21 @@ function bindProgressKeyboardHandler() {
      * Setup of a event handler for the keyboard device and the function key zone.
      * @type {gamesense.GameEventHandler}
      */
-    var functionKeysEventHandler = new gamesense.GameEventHandler(gamesense.DeviceType.KEYBOARD, gamesense.RgbPerKeyZone.A_ROW, gradient);
+    var functionKeysEventHandler = new gamesense.GameEventHandler(gamesense.DeviceType.RGB_PER_KEY_ZONES, gamesense.RgbPerKeyZone.FUNCTION_KEYS, gradient);
     functionKeysEventHandler.mode = gamesense.VisualizationMode.PERCENT;
 
-    client.bindEvent(progressEvent, [functionKeysEventHandler]);
+    return client.bindEvent(progressEvent, [functionKeysEventHandler]);
+}
 
-    // Start
+function startProgressUpdates() {
     setInterval(updateProgress, 200);
 }
 
 function updateProgress() {
     progressEvent.value = progressEvent.value + 5;
-    if (progressEvent.value > 100) {
-        progressEvent.value = 0;
+    if (progressEvent.value > progressEvent.maxValue) {
+        progressEvent.value = progressEvent.minValue;
     }
+
     client.sendGameEventUpdate(progressEvent);
 }
