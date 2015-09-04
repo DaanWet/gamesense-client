@@ -16,7 +16,7 @@ module.exports = function grunt(grunt) {
     var banner = ['/**',
         ' * ' + pkg.name,
         ' * @version ' + pkg.version + ' (' + grunt.template.today('yyyy-mm-dd') + ')',
-        ' * @author ' + pkg.author,
+        ' * @author ' + pkg.author.name,
         ' * @license ' + pkg.license,
         ' */\n'].join('\n');
 
@@ -33,7 +33,7 @@ module.exports = function grunt(grunt) {
             dist: {
                 options: {
                 },
-                banner: '(c) ' + pkg.author,
+                banner: '(c) ' + pkg.author.name,
                 src: [
                     srcDirectory + '_module.start.js',
                     srcDirectory + '_namespace.js',
