@@ -37,7 +37,7 @@ Examples are not part of the ```npm``` package.
  
 Start with the [**gamesense-sdk**](https://github.com/SteelSeries/gamesense-sdk) 
  
-### Cleanup/Remove Game
+#### Trick to cleanup / remove a registered game
 
 --- AT YOUR OWN RISK ---
 
