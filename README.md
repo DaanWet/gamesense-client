@@ -18,7 +18,7 @@ and use the gamesense-client module:
 ``` var gamesense = require('gamesense-client'); ```
 
 Take a look at the [**examples**](https://github.com/cschuller/gamesense-client/tree/master/examples) to get started. 
-Every example is runnable standalone.
+Every example can be run alone, for example:
 
 ``` node blinkingNavigation ```
 
