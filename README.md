@@ -11,7 +11,11 @@ This is not an official client implementation. GameSense is a trademark of [**st
 
 Install the client library via ```npm```
 
-``` npm install gamesense --save ```
+``` npm install gamesense-client --save ```
+
+and use the gamesense-client module:
+
+``` var gamesense = require('gamesense-client'); ```
 
 Take a look at the [**examples**](https://github.com/cschuller/gamesense-client/tree/master/examples) to get started. 
 Every example is runnable standalone.
