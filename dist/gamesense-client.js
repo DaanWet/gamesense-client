@@ -1,6 +1,6 @@
 /**
  * gamesense-client
- * @version 0.2.0 (2015-09-04)
+ * @version 0.2.1 (2015-09-04)
  * @author Christian Schuller <cschuller@servusalps.com>
  * @license MIT
  */
@@ -755,7 +755,7 @@ gamesense.ServerEndpoint = function ServerEndpoint(url) {
      * Windows | %PROGRAMDATA%/SteelSeries/SteelSeries Engine 3/coreProps.json
      */
     this.discoverUrl = function discoverUrl() {
-        var corePropsFilename = '';
+        var corePropsFilename;
         // Check the user's current platform
         // Initial check is for Darwin (OS X), and because SSE is Windows/OS X only,
         // we'll assume that the only other option is Windows.
