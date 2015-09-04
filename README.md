@@ -1,21 +1,43 @@
 # gamesense-client
-A JavaScript GameSense(TM) Client based on the [**gamesense-sdk**](https://github.com/SteelSeries/gamesense-sdk)
+[![GitHub version](https://badge.fury.io/gh/cschuller%2Fgamesense-client.svg)](http://badge.fury.io/gh/cschuller%2Fgamesense-client)
+[![NPM version](https://badge.fury.io/js/gamesense-client.svg)](http://badge.fury.io/js/gamesense-client)
 
-### Getting started
+A SteelSeries GameSense(TM) client based on the [**gamesense-sdk**](https://github.com/SteelSeries/gamesense-sdk)
 
-Take a look at the [**examples**](https://github.com/cschuller/gamesense-client/tree/master/examples)
+> GameSense™ is a framework in SteelSeries Engine 3 that allows games to send status 
+> updates to Engine, which can then drive illumination (and potentially more) 
+> capabilities of SteelSeries devices. 
 
-### Latest version
-0.1.0-SNAPSHOT
+This is not an official client implementation. GameSense is a trademark of [**steelseries**](http://steelseries.com/). 
 
-### Open Issues
+## Getting started
+
+Install the client library via ```npm```
+
+``` npm install gamesense-client --save ```
+
+and use the gamesense-client module:
+
+``` var gamesense = require('gamesense-client'); ```
+
+Take a look at the [**examples**](https://github.com/cschuller/gamesense-client/tree/master/examples) to get started. 
+Every example can be run alone, for example:
+
+``` node blinkingNavigation ```
+
+Examples are not part of the ```npm``` package.
+
+## Open Issues
 - Auto discovery of the GameSense(TM) engine does not work on OSX.
     - Pull-Request is highly welcome, see TODO of the ```Endpoint```
-    - Use url parameter of ```gamesense.Endpoint``` instead.
-- Releasing npm package
+    - Use the ```url``` parameter of ```gamesense.Endpoint``` instead.
 - The Escape key ```gamesense.RgbPerKeyZone.ESCAPE``` does not work. Seams to be a bug of the SteelSeries(TM) Engine 3.4.3 or the Apex M800 Firmware 1.24.0.0
 
-### Cleanup/Remove Game
+## Developing a game or app
+ 
+Start with the [**gamesense-sdk**](https://github.com/SteelSeries/gamesense-sdk) 
+ 
+#### Trick to cleanup / remove a registered game
 
 --- AT YOUR OWN RISK ---
 
