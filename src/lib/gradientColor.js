@@ -9,12 +9,12 @@ gamesense.GradientColor = function GradientColor(zero, hundred) {
     'use strict';
 
     /**
-     * @type {number}
+     * @type {gamesense.Color}
      */
     this.zero = zero;
 
     /**
-     * @type {number}
+     * @type {gamesense.Color}
      */
     this.hundred = hundred;
 };

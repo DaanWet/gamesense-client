@@ -122,6 +122,8 @@ gamesense.GameClient = function GameClient(game, endpoint) {
                 handlerData.color = {
                     gradient: handler.color
                 };
+            } else if (handler.color.constructor.name === 'ColorRanges') {
+                handlerData.color = handler.color.ranges;
             }
 
             if (handler.customZoneKeys) {
@@ -254,6 +256,44 @@ gamesense.Color = function Color(r, g, b) {
     this.blue = b;
 };
 /**
+ * A concrete color range.
+ * @constructor
+ * @param {number} low Minimum value, inclusive.
+ * @param {number} high Maximum value, inclusive.
+ * @param {gamesense.Color|gamesense.GradientColor} color
+ */
+gamesense.ColorRange = function ColorRange(low, high, color) {
+    'use strict';
+
+    /**
+     * @type {number}
+     */
+    this.low = low;
+
+    /**
+     * @type {number}
+     */
+    this.high = high;
+
+    /**
+     * @type {gamesense.Color|gamesense.GradientColor}
+     */
+    this.color = color;
+};
+/**
+ * List of color ranges.
+ * @constructor
+ * @param {Array<gamesense.ColorRange>} [ranges]
+ */
+gamesense.ColorRanges = function ColorRanges(ranges) {
+    'use strict';
+
+    /**
+     * @type {Array<gamesense.ColorRange>}
+     */
+    this.ranges = ranges || [];
+};
+/**
  * Pre defined Device Types
  * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/standard-zones.md#device-types
  * @enum {string}
@@ -328,6 +368,20 @@ gamesense.EventIcon = {
     CLOCK: 15,
     LIGHTNING: 16,
     ITEM_BACKPACK: 17
+};
+/**
+ * A static FlashEffectFrequency.
+ * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/writing-handlers-in-json.md#static-frequency
+ * @param {number} frequency Number of flash times per second.
+ * @constructor
+ */
+gamesense.FlashEffectFrequency = function FlashEffectFrequency(frequency) {
+    'use strict';
+
+    /**
+     * @type {number}
+     */
+    this.frequency = frequency;
 };
 /**
  * @constructor
@@ -411,7 +465,7 @@ gamesense.GameEvent = function GameEvent(name) {
  * @constructor
  * @param {gamesense.DeviceType}  [deviceType]
  * @param {string} [zone]
- * @param {gamesense.Color|gamesense.GradientColor} [color]
+ * @param {gamesense.Color|gamesense.GradientColor|gamesense.ColorRanges} [color]
  */
 gamesense.GameEventHandler = function GameEventHandler(deviceType, zone, color) {
     'use strict';
@@ -447,7 +501,9 @@ gamesense.GameEventHandler = function GameEventHandler(deviceType, zone, color) 
     this.mode = gamesense.VisualizationMode.COLOR;
 
     /**
-     * @type {?}
+     * Specifying flash effects
+     * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/writing-handlers-in-json.md#specifying-flash-effects
+     * @type {gamesense.FlashEffectFrequency}
      */
     this.rate = null;
 };
@@ -462,12 +518,12 @@ gamesense.GradientColor = function GradientColor(zero, hundred) {
     'use strict';
 
     /**
-     * @type {number}
+     * @type {gamesense.Color}
      */
     this.zero = zero;
 
     /**
-     * @type {number}
+     * @type {gamesense.Color}
      */
     this.hundred = hundred;
 };

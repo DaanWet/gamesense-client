@@ -4,7 +4,7 @@
  * @constructor
  * @param {gamesense.DeviceType}  [deviceType]
  * @param {string} [zone]
- * @param {gamesense.Color|gamesense.GradientColor} [color]
+ * @param {gamesense.Color|gamesense.GradientColor|gamesense.ColorRanges} [color]
  */
 gamesense.GameEventHandler = function GameEventHandler(deviceType, zone, color) {
     'use strict';
@@ -40,7 +40,9 @@ gamesense.GameEventHandler = function GameEventHandler(deviceType, zone, color) 
     this.mode = gamesense.VisualizationMode.COLOR;
 
     /**
-     * @type {?}
+     * Specifying flash effects
+     * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/writing-handlers-in-json.md#specifying-flash-effects
+     * @type {gamesense.FlashEffectFrequency}
      */
     this.rate = null;
 };

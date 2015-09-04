@@ -92,6 +92,8 @@ gamesense.GameClient = function GameClient(game, endpoint) {
                 handlerData.color = {
                     gradient: handler.color
                 };
+            } else if (handler.color.constructor.name === 'ColorRanges') {
+                handlerData.color = handler.color.ranges;
             }
 
             if (handler.customZoneKeys) {
