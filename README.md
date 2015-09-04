@@ -1,4 +1,7 @@
 # gamesense-client
+[![GitHub version](https://badge.fury.io/gh/cschuller%2Fgamesense-client.svg)](http://badge.fury.io/gh/cschuller%2Fgamesense-client)
+[![NPM version](https://badge.fury.io/js/gamesense-client.svg)](http://badge.fury.io/js/gamesense-client)
+
 A SteelSeries GameSense(TM) client based on the [**gamesense-sdk**](https://github.com/SteelSeries/gamesense-sdk)
 
 > GameSense™ is a framework in SteelSeries Engine 3 that allows games to send status 
