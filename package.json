@@ -1,6 +1,6 @@
 {
   "name": "gamesense-client",
-  "version": "0.1.0-SNAPSHOT",
+  "version": "0.1.0",
   "description": "A JavaScript GameSense(TM) Client",
   "keywords": "steelseries gamesense game engine engine3 gamesense-sdk illumination keyboard",
   "bugs": {
