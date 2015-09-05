@@ -1,10 +1,13 @@
 # gamesense-client
-[![GitHub version](https://badge.fury.io/gh/cschuller%2Fgamesense-client.svg)](http://badge.fury.io/gh/cschuller%2Fgamesense-client)
-[![NPM version](https://badge.fury.io/js/gamesense-client.svg)](http://badge.fury.io/js/gamesense-client)
+[![GitHub tag](https://img.shields.io/github/tag/cschuller/gamesense-client.svg?style=flat-square)](https://github.com/cschuller/yak-js)
+[![npm](https://img.shields.io/npm/v/gamesense-client.svg?style=flat-square)](https://www.npmjs.com/package/yakjs)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://raw.githubusercontent.com/cschuller/gamesense-client/master/LICENSE)
+[![Built with Grunt](https://img.shields.io/badge/built with-grunt-yellow.svg?style=flat-square)](http://gruntjs.com/)
+
 
 A SteelSeries GameSense(TM) client based on the [**gamesense-sdk**](https://github.com/SteelSeries/gamesense-sdk)
 
-> GameSense™ is a framework in SteelSeries Engine 3 that allows games to send status 
+> GameSenseâ„¢ is a framework in SteelSeries Engine 3 that allows games to send status 
 > updates to Engine, which can then drive illumination (and potentially more) 
 > capabilities of SteelSeries devices. 
 
