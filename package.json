@@ -8,9 +8,12 @@
   },
   "license": "MIT",
   "author": {
-    "name": "Christian Schuller <cschuller@servusalps.com>"
+    "name": "Christian Schuller <cschuller>"
   },
-  "contributors": [],
+  "contributors": [{
+      "name": "Dave Skuza <dskuza>"
+    }
+  ],
   "main": "dist/gamesense-client.js",
   "repository" : {
     "type" : "git",
