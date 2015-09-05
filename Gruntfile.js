@@ -15,7 +15,7 @@ module.exports = function grunt(grunt) {
 
     var banner = ['/**',
         ' * ' + pkg.name,
-        ' * @version ' + pkg.version + ' (' + grunt.template.today('yyyy-mm-dd') + ')',
+        ' * @version ' + pkg.version,
         ' * @author ' + pkg.author.name,
         ' * @license ' + pkg.license,
         ' */\n'].join('\n');
