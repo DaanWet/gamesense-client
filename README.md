@@ -1,5 +1,4 @@
 # gamesense-client
-[![GitHub tag](https://img.shields.io/github/tag/cschuller/gamesense-client.svg?style=flat-square)](https://github.com/cschuller/gamesense-client)
 [![npm](https://img.shields.io/npm/v/gamesense-client.svg?style=flat-square)](https://www.npmjs.com/package/gamesense-client)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://raw.githubusercontent.com/cschuller/gamesense-client/master/LICENSE)
 [![Built with Grunt](https://img.shields.io/badge/built with-grunt-yellow.svg?style=flat-square)](http://gruntjs.com/)
