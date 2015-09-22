@@ -29,9 +29,6 @@ Every example can be run alone, for example:
 
 Examples are not part of the ```npm``` package.
 
-## Open Issues
-- The Escape key ```gamesense.RgbPerKeyZone.ESCAPE``` does not work. Seams to be a bug of the SteelSeries(TM) Engine 3.4.3 or the Apex M800 Firmware 1.24.0.0
-
 ## Developing a game or app
  
 Start with the [**gamesense-sdk**](https://github.com/SteelSeries/gamesense-sdk) 
