@@ -1,6 +1,6 @@
 {
   "name": "gamesense-client",
-  "version": "0.2.1",
+  "version": "1.0.0-SNAPSHOT",
   "description": "A GameSense(TM) Client",
   "keywords": ["steelseries", "gamesense", "game", "engine", "engine3", "gamesense-sdk", "illumination", "keyboard"],
   "bugs": {
