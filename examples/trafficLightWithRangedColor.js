@@ -52,23 +52,14 @@ trafficLightEvent.maxValue = 119;
 
 /**
  * Let's setup and start everything.
- * The SteelSeries GameSense™ SDK is not very exact about the ordering of the different steps.
+ * The SteelSeries GameSenseï¿½ SDK is not very exact about the ordering of the different steps.
  * So let's wait on every request for the response to start the next step. The gamesense-client
  * provides Promises to do this in a very easy way.
  */
 client.registerGame()
-    .then(registerTrafficLightEvent)
     .then(bindTrafficLightHandler)
-    .then(startTrafficLightUpdates);
-
-
-/**
- * Register event.
- * @returns {Promise}
- */
-function registerTrafficLightEvent() {
-    return client.registerEvent(trafficLightEvent)
-}
+    .then(startTrafficLightUpdates)
+    .catch(logError);
 
 /**
  * Binds the blink handler to the keyboard device.
@@ -111,5 +102,12 @@ function updateTrafficLightEvent() {
         trafficLightEvent.value = trafficLightEvent.minValue;
     }
 
-    client.sendGameEventUpdate(trafficLightEvent);
+    client.sendGameEventUpdate(trafficLightEvent).catch(logError);
+}
+
+/**
+ * Logs an error to the console.
+ */
+function logError(error) {
+    console.log(error);
 }

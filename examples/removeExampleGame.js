@@ -39,4 +39,11 @@ var client = new gamesense.GameClient(game, endpoint);
 /**
  * Removes the 'EXAMPLE_TEST' client from GameSense(TM)
  */
-client.removeGame();
+client.removeGame().catch(logError);
+
+/**
+ * Logs an error to the console.
+ */
+function logError(error) {
+    console.log(error);
+}

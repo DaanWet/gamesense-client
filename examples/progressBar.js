@@ -45,17 +45,9 @@ progressEvent.maxValue = 100;
  * Let's register our game.
  */
 client.registerGame()
-    .then(registerProgressEvent)
     .then(bindProgressHandler)
-    .then(startProgressUpdates);
-
-/**
- * Register event.
- * @returns {Promise}
- */
-function registerProgressEvent() {
-    return client.registerEvent(progressEvent);
-}
+    .then(startProgressUpdates)
+    .catch(logError);
 
 /**
  * Binds the progress handler.
@@ -86,5 +78,12 @@ function updateProgress() {
         progressEvent.value = progressEvent.minValue;
     }
 
-    client.sendGameEventUpdate(progressEvent);
+    client.sendGameEventUpdate(progressEvent).catch(logError);
+}
+
+/**
+ * Logs an error to the console.
+ */
+function logError(error) {
+    console.log(error);
 }

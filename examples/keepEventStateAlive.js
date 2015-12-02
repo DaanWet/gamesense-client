@@ -41,18 +41,9 @@ var isStartedEvent = new gamesense.GameEvent('IS_STARTED');
  * Let's register our game.
  */
 client.registerGame()
-    .then(registerStartedEvent)
     .then(bindStartedHandler)
-    .then(startGame);
-
-/**
- * Register event.
- * @returns {Promise}
- */
-function registerStartedEvent() {
-    return client.registerEvent(isStartedEvent);
-}
-
+    .then(startGame)
+    .catch(logError);
 
 /**
  * Binds the is started handler to the keyboard device.
@@ -71,8 +62,17 @@ function bindStartedHandler() {
 function startGame() {
     console.log('Starting the game...');
     isStartedEvent.value = 1;
-    client.sendGameEventUpdate(isStartedEvent);
+    client
+        .sendGameEventUpdate(isStartedEvent)
+        .catch(logError);
 
     // Use heartbeat to keep the current state alive.
     client.startHeartbeatSending();
+}
+
+/**
+ * Logs an error to the console.
+ */
+function logError(error) {
+    console.log(error);
 }
