@@ -41,6 +41,21 @@ gamesense.GameClient = function GameClient(game, endpoint) {
     };
 
     /**
+     * As of SteelSeries Engine 3.5.0, you can remove a game you have registered.
+     * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/writing-handlers-in-json.md#removing-a-game
+     * @returns {Promise} Returns the promise.
+     */
+    this.removeGame = function removeGame() {
+        /*eslint-disable camelcase */
+        var data = {
+            game: game.name
+        };
+        /*eslint-enable camelcase */
+
+        return post('/remove_game', data);
+    };
+
+    /**
      * @param {gamesense.GameEvent} gameEvent
      * @returns {Promise} Returns the promise.
      */
@@ -56,6 +71,21 @@ gamesense.GameClient = function GameClient(game, endpoint) {
         /*eslint-enable camelcase */
 
         return post('/register_game_event', data);
+    };
+
+    /**
+     * @param {gamesense.GameEvent} gameEvent
+     * @returns {Promise} Returns the promise.
+     */
+    this.removeEvent = function removeEvent(gameEvent) {
+        /*eslint-disable camelcase */
+        var data = {
+            game: game.name,
+            event: gameEvent.name
+        };
+        /*eslint-enable camelcase */
+
+        return post('/remove_game_event', data);
     };
 
     /**
