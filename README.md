@@ -33,21 +33,11 @@ Examples are not part of the ```npm``` package.
  
 Start with the [**gamesense-sdk**](https://github.com/SteelSeries/gamesense-sdk) 
  
-#### Trick to cleanup / remove a registered game
+#### What's new in 1.0.0
 
---- AT YOUR OWN RISK ---
+- Support for SteelSeries GameSense(TM) > 3.5.0
+- Remove game 
+- Remove event
+- Using new status codes for better error handling. Full support for promises.
+- All examples updated. 
 
-The SteelSeries GameSense(TM) SDK/API does not provide a way to unregister or cleanup a game. When playing around with
-different event handlers sometimes things are messed up a little bit and you want to remove the game.
-
-All the games, events and handlers are stored in a *SQLite* database.
-The database file can be found in one of these locations, depending on OS:
-
-**OSX**     | `/Library/Application Support/SteelSeries Engine 3/db/database.db`
-
-**Windows** | `%PROGRAMDATA%/SteelSeries/SteelSeries Engine 3/db/database.db`
-
-Edit the ```game_integration_games``` table and delete the corresponding row. You may also cleanup some other tables. 
-The [**DB Browser for SQLite**](http://sqlitebrowser.org/) is a good tool for this job.
-
-As always: It is ```highly recommended``` to make a backup before editing a database you don't own. ;-)
