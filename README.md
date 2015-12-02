@@ -33,7 +33,7 @@ Examples are not part of the ```npm``` package.
  
 Start with the [**gamesense-sdk**](https://github.com/SteelSeries/gamesense-sdk) 
  
-### What's new in 1.0.0
+## What's new in 1.0.0
 
 - Support for SteelSeries GameSense(TM) > 3.5.0
 - Remove game 
