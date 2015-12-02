@@ -49,23 +49,14 @@ var blinkEvent = new gamesense.GameEvent('IS_BLINK_ACTIVE');
 
 /**
  * Let's setup and start everything.
- * The SteelSeries GameSense™ SDK is not very exact about the ordering of the different steps.
+ * The SteelSeries GameSenseï¿½ SDK is not very exact about the ordering of the different steps.
  * So let's wait on every request for the response to start the next step. The gamesense-client
  * provides Promises to do this in a very easy way.
  */
 client.registerGame()
-    .then(registerBlinkEvent)
     .then(bindBlinkHandler)
-    .then(startBlinkEventUpdates);
-
-
-/**
- * Register event.
- * @returns {Promise}
- */
-function registerBlinkEvent() {
-    return client.registerEvent(blinkEvent)
-}
+    .then(startBlinkEventUpdates)
+    .catch(logError);
 
 /**
  * Binds the blink handler to the keyboard device.
@@ -94,5 +85,13 @@ function startBlinkEventUpdates() {
  */
 function updateBlinkEvent() {
     blinkEvent.value = blinkEvent.value > 0 ? 0 : 1;
-    client.sendGameEventUpdate(blinkEvent);
+    console.log('updateBlinkEvent', {blinkEvent: blinkEvent});
+    client.sendGameEventUpdate(blinkEvent).catch(logError);
+}
+
+/**
+ * Logs an error to the console.
+ */
+function logError(error) {
+    console.log(error);
 }

@@ -42,23 +42,14 @@ var radiationWarningEvent = new gamesense.GameEvent('RADIATION_WARNING');
 
 /**
  * Let's setup and start everything.
- * The SteelSeries GameSense™ SDK is not very exact about the ordering of the different steps.
+ * The SteelSeries GameSenseï¿½ SDK is not very exact about the ordering of the different steps.
  * So let's wait on every request for the response to start the next step. The gamesense-client
  * provides Promises to do this in a very easy way.
  */
 client.registerGame()
-    .then(registerRadiationWarningEvent)
     .then(bindRadiationWarningHandler)
-    .then(activateRadiationWarning);
-
-
-/**
- * Register event.
- * @returns {Promise}
- */
-function registerRadiationWarningEvent() {
-    return client.registerEvent(radiationWarningEvent);
-}
+    .then(activateRadiationWarning)
+    .catch(logError);
 
 /**
  * Binds the blink handler to the keyboard device.
@@ -82,6 +73,12 @@ function bindRadiationWarningHandler() {
  */
 function activateRadiationWarning() {
     radiationWarningEvent.value = 1;
-    client.sendGameEventUpdate(radiationWarningEvent);
+    client.sendGameEventUpdate(radiationWarningEvent).catch(logError);
 }
 
+/**
+ * Logs an error to the console.
+ */
+function logError(error) {
+    console.log(error);
+}

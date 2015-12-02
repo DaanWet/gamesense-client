@@ -41,6 +41,21 @@ gamesense.GameClient = function GameClient(game, endpoint) {
     };
 
     /**
+     * As of SteelSeries Engine 3.5.0, you can remove a game you have registered.
+     * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/writing-handlers-in-json.md#removing-a-game
+     * @returns {Promise} Returns the promise.
+     */
+    this.removeGame = function removeGame() {
+        /*eslint-disable camelcase */
+        var data = {
+            game: game.name
+        };
+        /*eslint-enable camelcase */
+
+        return post('/remove_game', data);
+    };
+
+    /**
      * @param {gamesense.GameEvent} gameEvent
      * @returns {Promise} Returns the promise.
      */
@@ -56,6 +71,21 @@ gamesense.GameClient = function GameClient(game, endpoint) {
         /*eslint-enable camelcase */
 
         return post('/register_game_event', data);
+    };
+
+    /**
+     * @param {gamesense.GameEvent} gameEvent
+     * @returns {Promise} Returns the promise.
+     */
+    this.removeEvent = function removeEvent(gameEvent) {
+        /*eslint-disable camelcase */
+        var data = {
+            game: game.name,
+            event: gameEvent.name
+        };
+        /*eslint-enable camelcase */
+
+        return post('/remove_game_event', data);
     };
 
     /**
@@ -171,7 +201,7 @@ gamesense.GameClient = function GameClient(game, endpoint) {
      * @returns {Promise} Returns a request promise.
      */
     function post(path, data) {
-        return new Promise(function postPromise(resolve) {
+        return new Promise(function postPromise(resolve, reject) {
             var jsonData = JSON.stringify(data);
 
             var options = {
@@ -188,12 +218,20 @@ gamesense.GameClient = function GameClient(game, endpoint) {
             var request = http.request(options, function handleResponse(response) {
                 response.setEncoding('utf8');
                 response.on('data', function handleOnData(chunk) {
-                    console.log(response.statusCode + ' < ' + chunk);
-                    resolve(chunk);
+                    // See more about error handling at
+                    // https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/writing-handlers-in-json.md#error-handling
+                    if (response.statusCode === 200) {
+                        resolve(chunk);
+                    } else {
+                        reject({
+                            jsonData: jsonData,
+                            request: options,
+                            statusCode: response.statusCode,
+                            error: chunk
+                        });
+                    }
                 });
             });
-
-            console.log('POST ' + path, {json: jsonData});
 
             request.write(jsonData);
             request.end();
