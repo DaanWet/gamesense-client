@@ -6,7 +6,7 @@
  * @param {string} [developer] Optional: Developer name displayed underneath the game name in SSE
  * @param {integer} [deinitialize_timer_length_ms] Optional: After what time without events the stop_game call is made (in ms, default 15000)
  */
-gamesense.Game = function Game(name, displayName, developer, deinitialize_timer_length_ms	) {
+gamesense.Game = function Game(name, displayName, developer, deinitialize_timer_length_ms) {
     
 
     /**

@@ -46,13 +46,16 @@ gamesense.ServerEndpoint = function ServerEndpoint(url) {
      * This file can be found in one of these locations, depending on OS:
      * OSX | /Library/Application Support/SteelSeries Engine 3/coreProps.json
      * Windows | %PROGRAMDATA%/SteelSeries/SteelSeries Engine 3/coreProps.json
+     * @param {string} [path] Optional: custom Path to corepropsfile
      */
-    this.discoverUrl = function discoverUrl() {
+    this.discoverUrl = function discoverUrl(path) {
         var corePropsFilename;
         // Check the user's current platform
         // Initial check is for Darwin (OS X), and because SSE is Windows/OS X only,
         // we'll assume that the only other option is Windows.
-        if (process.platform === 'darwin') {
+        if (path){
+            corePropsFilename = path
+        } else if (process.platform === 'darwin') {
             corePropsFilename = '/Library/Application\ Support/SteelSeries\ Engine\ 3/coreProps.json';
         } else {
             corePropsFilename = '%PROGRAMDATA%/SteelSeries/SteelSeries Engine 3/coreProps.json';
