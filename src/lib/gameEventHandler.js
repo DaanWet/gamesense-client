@@ -1,3 +1,4 @@
+'use strict';
 /**
  *
  * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/writing-handlers-in-json.md#binding-an-event
@@ -7,7 +8,7 @@
  * @param {gamesense.Color|gamesense.GradientColor|gamesense.ColorRanges} [color]
  */
 gamesense.GameEventHandler = function GameEventHandler(deviceType, zone, color) {
-    'use strict';
+    
 
     /**
      * @type {!gamesense.DeviceType}

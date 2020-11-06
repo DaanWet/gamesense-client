@@ -1,3 +1,4 @@
+'use strict';
 /**
  * Default game icon colors.
  * To display the following colored versions of the default game icon next to your game

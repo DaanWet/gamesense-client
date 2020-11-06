@@ -1,11 +1,10 @@
+'use strict';
 /**
  * The server endpoint configuration.
  * @param {string} [url] URL to the HTTP server, like http://127.0.0.1:51248
  * @constructor
  */
 gamesense.ServerEndpoint = function ServerEndpoint(url) {
-    'use strict';
-
     /**
      * @type {gamesense.ServerEndpoint}
      */
