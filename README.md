@@ -1,3 +1,5 @@
+**[INACTIVE]** This libarary is no longer active.
+
 # gamesense-client
 [![npm](https://img.shields.io/npm/v/gamesense-client.svg?style=flat-square)](https://www.npmjs.com/package/gamesense-client)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://raw.githubusercontent.com/cschuller/gamesense-client/master/LICENSE)
