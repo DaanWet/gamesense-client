@@ -1,3 +1,4 @@
+'use strict';
 /**
  * Pre defined Device Types
  * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/standard-zones.md#device-types

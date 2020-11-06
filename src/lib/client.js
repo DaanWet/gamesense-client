@@ -1,3 +1,4 @@
+'use strict';
 /**
  * The GameSense(TM) Client
  * @constructor
@@ -5,7 +6,7 @@
  * @param {gamesense.ServerEndpoint} endpoint The GameSense(TM) server.
  */
 gamesense.GameClient = function GameClient(game, endpoint) {
-    'use strict';
+    
 
     var http = require('http');
     var Promise = require('promise');

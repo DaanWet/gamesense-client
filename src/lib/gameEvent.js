@@ -1,9 +1,10 @@
+'use strict';
 /**
  * @param {string} name
  * @constructor
  */
 gamesense.GameEvent = function GameEvent(name) {
-    'use strict';
+    
 
     /**
      * @type {string}

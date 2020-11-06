@@ -1,3 +1,4 @@
+'use strict';
 /**
  * @constructor
  * @param {string} name Use only uppercase A-Z, 0-9, hyphen and underscore characters for the game name.
@@ -5,7 +6,7 @@
  * @param {gamesense.GameColor} [iconColor] Optional: The icon color in the SteelSeries Engine Interface.
  */
 gamesense.Game = function Game(name, displayName, iconColor) {
-    'use strict';
+    
 
     /**
      * @type {string}

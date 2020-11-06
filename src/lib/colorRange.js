@@ -1,3 +1,4 @@
+'use strict';
 /**
  * A concrete color range.
  * @constructor
@@ -6,7 +7,7 @@
  * @param {gamesense.Color|gamesense.GradientColor} color
  */
 gamesense.ColorRange = function ColorRange(low, high, color) {
-    'use strict';
+    
 
     /**
      * @type {number}

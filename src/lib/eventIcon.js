@@ -1,3 +1,4 @@
+'use strict';
 /**
  * Event Icons.
  * Icon will be displayed in SteelSeries(TM) Engine user interface.
