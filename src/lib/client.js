@@ -30,13 +30,12 @@ gamesense.GameClient = function GameClient(game, endpoint) {
      * @returns {Promise} Returns the promise.
      */
     this.registerGame = function registerGame() {
-        /*eslint-disable camelcase */
         var data = {
             game: game.name,
             game_display_name: game.displayName,
-            icon_color_id: game.iconColor
+            developer: game.developer,
+            deinitialize_timer_length_ms: game.deinitialize_timer_length_ms
         };
-        /*eslint-enable camelcase */
 
         return post('/game_metadata', data);
     };
@@ -47,12 +46,9 @@ gamesense.GameClient = function GameClient(game, endpoint) {
      * @returns {Promise} Returns the promise.
      */
     this.removeGame = function removeGame() {
-        /*eslint-disable camelcase */
         var data = {
             game: game.name
         };
-        /*eslint-enable camelcase */
-
         return post('/remove_game', data);
     };
 
@@ -61,7 +57,6 @@ gamesense.GameClient = function GameClient(game, endpoint) {
      * @returns {Promise} Returns the promise.
      */
     this.registerEvent = function registerEvent(gameEvent) {
-        /*eslint-disable camelcase */
         var data = {
             game: game.name,
             event: gameEvent.name,
@@ -69,8 +64,6 @@ gamesense.GameClient = function GameClient(game, endpoint) {
             max_value: gameEvent.maxValue,
             icon_id: gameEvent.icon
         };
-        /*eslint-enable camelcase */
-
         return post('/register_game_event', data);
     };
 
@@ -79,13 +72,10 @@ gamesense.GameClient = function GameClient(game, endpoint) {
      * @returns {Promise} Returns the promise.
      */
     this.removeEvent = function removeEvent(gameEvent) {
-        /*eslint-disable camelcase */
         var data = {
             game: game.name,
             event: gameEvent.name
         };
-        /*eslint-enable camelcase */
-
         return post('/remove_game_event', data);
     };
 
@@ -96,8 +86,6 @@ gamesense.GameClient = function GameClient(game, endpoint) {
      * @returns {Promise} Returns the promise.
      */
     this.bindEvent = function bindEvent(event, handlers) {
-        /*eslint-disable camelcase */
-
         /**
          * @param {!gamesense.GameEventHandler} handler
          * @returns {Object} The gamesense data object representing a handler.
@@ -142,8 +130,6 @@ gamesense.GameClient = function GameClient(game, endpoint) {
             icon_id: event.icon,
             handlers: _.map(handlers, toHandlerData)
         };
-        /*eslint-enable camelcase */
-
         return post('/bind_game_event', data);
     };
 
@@ -152,7 +138,6 @@ gamesense.GameClient = function GameClient(game, endpoint) {
      * @returns {Promise} Returns the promise.
      */
     this.sendGameEventUpdate = function updateGameEvent(event) {
-        /*eslint-disable camelcase */
         var data = {
             game: game.name,
             event: event.name,
@@ -160,8 +145,6 @@ gamesense.GameClient = function GameClient(game, endpoint) {
                 value: event.value
             }
         };
-        /*eslint-enable camelcase */
-
         return post('/game_event', data);
     };
 
@@ -187,12 +170,9 @@ gamesense.GameClient = function GameClient(game, endpoint) {
      * Sends an heartbeat event
      */
     function sendHeartbeat() {
-        /*eslint-disable camelcase */
         var data = {
             game: game.name
         };
-        /*eslint-enable camelcase */
-
         post('/game_heartbeat', data);
     }
 
