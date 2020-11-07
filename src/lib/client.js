@@ -10,7 +10,7 @@ gamesense.GameClient = function GameClient(game, endpoint) {
 
     var http = require('http');
     var Promise = require('promise');
-    var _ = require('underscore');
+    //var _ = require('underscore');
 
     /**
      * The heartbeat interval in seconds.
@@ -62,7 +62,8 @@ gamesense.GameClient = function GameClient(game, endpoint) {
             event: gameEvent.name,
             min_value: gameEvent.minValue,
             max_value: gameEvent.maxValue,
-            icon_id: gameEvent.icon
+            icon_id: gameEvent.icon,
+            value_optional: gameEvent.value_optional
         };
         return post('/register_game_event', data);
     };
@@ -86,41 +87,7 @@ gamesense.GameClient = function GameClient(game, endpoint) {
      * @returns {Promise} Returns the promise.
      */
     this.bindEvent = function bindEvent(event, handlers) {
-        /**
-         * @param {!gamesense.GameEventHandler} handler
-         * @returns {Object} The gamesense data object representing a handler.
-         */
-        function toHandlerData(handler) {
-            var handlerData = {
-                zone: handler.zone,
-                color: handler.color,
-                mode: handler.mode
-            };
-
-            if (handler.deviceType) {
-                handlerData['device-type'] = handler.deviceType;
-            } else {
-                throw new Error('bindEvent failed: Missing device type.');
-            }
-
-            if (handler.rate) {
-                handlerData.rate = handler.rate;
-            }
-
-            if (handler.color.constructor.name === 'GradientColor') {
-                handlerData.color = {
-                    gradient: handler.color
-                };
-            } else if (handler.color.constructor.name === 'ColorRanges') {
-                handlerData.color = handler.color.ranges;
-            }
-
-            if (handler.customZoneKeys) {
-                handlerData['custom-zone-keys'] = handler.customZoneKeys;
-            }
-
-            return handlerData;
-        }
+        
 
         var data = {
             game: game.name,
@@ -128,7 +95,7 @@ gamesense.GameClient = function GameClient(game, endpoint) {
             min_value: event.minValue,
             max_value: event.maxValue,
             icon_id: event.icon,
-            handlers: _.map(handlers, toHandlerData)
+            handlers: handlers.map(function f(handler) {return handler.toHandlerData()})
         };
         return post('/bind_game_event', data);
     };
