@@ -30,4 +30,9 @@ gamesense.GameEvent = function GameEvent(name) {
      * @type {number}
      */
     this.value = 0;
+
+    /**
+     * @type {boolean}
+     */
+    this.value_optional = false
 };

@@ -13,7 +13,7 @@ gamesense.GameEventHandler = function GameEventHandler(deviceType, zone, color) 
     /**
      * @type {!gamesense.DeviceType}
      */
-    this.deviceType = deviceType || gamesense.DeviceType.RGB_PER_KEY_ZONE;
+    this.deviceType = deviceType || gamesense.DeviceType.RGB_PER_KEY_ZONES;
 
     /**
      * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/standard-zones.md

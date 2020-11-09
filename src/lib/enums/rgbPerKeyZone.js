@@ -78,6 +78,8 @@ gamesense.RgbPerKeyZone = {
     INSERT: 'insert',
     HOME: 'home',
     PAGE_UP: 'pageup',
+    DELETE: 'delete',
+    END: 'end',
     PAGE_DOWN: 'pagedown',
     RIGHT_ARROW: 'rightarrow',
     LEFT_ARROW: 'leftarrow',
