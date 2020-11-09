@@ -26,6 +26,14 @@ gamesense.DeviceType = {
     INDICATOR: 'indicator',
 
     /**
+     * A generic specifier that applies to any connected, supported RGB device that has a static number of lighting zones. 
+     * This can be used to apply settings to a certain zone on all of the types of devices in the list below at once. 
+     * When using this type, a handler will be created for each type below that has the specified zone.
+     */
+
+    RGB_ZONED: 'rgb-zoned-device',
+
+    /**
      * Any connected, supported, single zone RGB device. Initially the Siberia Elite line, Siberia v3 Prism, and Sims 4 line.
      */
     RGB_1_ZONE: 'rgb-1-zone',
@@ -44,9 +52,47 @@ gamesense.DeviceType = {
      * Any connected, supported, five zone RGB device. Initially the Apex 300 keyboard.
      */
     RGB_5_ZONE: 'rgb-5-zone',
+    /**
+     * Any connected, supported, eight zone RGB device. Initially the Rival 600 and Rival 650 mice.
+     */
+    RGB_8_ZONE: 'rgb-8-zone',
+
+    /**
+     * Any connected, supported, twelve zone RGB device. Initially the QCK Prism mousepad
+     */
+    RGB_12_ZONE: 'rgb-12-zone',
+
+
+    /**
+     * Any connected, supported, seventeen zone RGB device. Initially the MSI Z270 Gaming Pro Carbon motherboard.
+     */
+    RGB_17_ZONE: 'rgb-17-zone',
+
+    /**
+     * Any connected, supported, twenty-four zone RGB device. Initially the MSI Mystic Light.
+     */
+    RGB_24_ZONE: 'rgb-24-zone',
+
+    /**
+     * Any connected, supported, one hundred three zone RGB device. Initially the MSI MPG27C and MPG27CQ monitors.
+     */
+    RGB_103_ZONE: 'rgb-103-zone',
+
 
     /**
      * Any connected, supported, keyboard with a lighting zone for each key. Initially the APEX M800 keyboard.
      */
-    RGB_PER_KEY_ZONES: 'rgb-per-key-zones'
+    RGB_PER_KEY_ZONES: 'rgb-per-key-zones',
+
+    /**
+     * Any connected, supported device that supports notifications on a single OLED or LCD screen. 
+     * Initially the Rival 700, Rival 710, Arctis Pro Wireless, and GameDAC.
+     */
+    SCREENED: 'screened',
+
+    /**
+     * Currently the only supported tactile feedback device is the Rival 700, which has a single motor for the purpose. 
+     * More zones may be introduced in the future with new devices
+     */
+    TACTILE: 'tactile'
 };

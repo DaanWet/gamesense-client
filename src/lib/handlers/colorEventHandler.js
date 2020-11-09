@@ -8,12 +8,12 @@
  * @param {gamesense.Color|gamesense.GradientColor|gamesense.ColorRanges} [color]
  */
 gamesense.GameEventHandler = function GameEventHandler(deviceType, zone, color) {
-    
+
 
     /**
      * @type {!gamesense.DeviceType}
      */
-    this.deviceType = deviceType || gamesense.DeviceType.RGB_PER_KEY_ZONE;
+    this.deviceType = deviceType || gamesense.DeviceType.RGB_PER_KEY_ZONES;
 
     /**
      * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/standard-zones.md
@@ -43,7 +43,41 @@ gamesense.GameEventHandler = function GameEventHandler(deviceType, zone, color) 
     /**
      * Specifying flash effects
      * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/writing-handlers-in-json.md#specifying-flash-effects
-     * @type {gamesense.FlashEffectFrequency}
+     * @type {gamesense.Rate}
      */
     this.rate = null;
+    /**
+    * @returns {Object} The gamesense data object representing a handler.
+    */
+    this.toHandlerData = function toHandlerData() {
+        var handlerData = {
+            zone: this.zone,
+            color: this.color,
+            mode: this.mode
+        };
+
+        if (this.deviceType) {
+            handlerData['device-type'] = this.deviceType;
+        } else {
+            throw new Error('bindEvent failed: Missing device type.');
+        }
+
+        if (this.rate) {
+            handlerData.rate = this.rate.toRateData();
+        }
+
+        if (this.color.constructor.name === 'GradientColor') {
+            handlerData.color = {
+                gradient: handler.color
+            };
+        } else if (this.color.constructor.name === 'ColorRanges') {
+            handlerData.color = this.color.ranges;
+        }
+
+        if (this.customZoneKeys) {
+            handlerData['custom-zone-keys'] = this.customZoneKeys;
+        }
+
+        return handlerData;
+    }
 };
