@@ -1,14 +1,14 @@
 'use strict';
 /**
- * A static RepeatLimit.
+ * A static FlashFrequency.
  * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/writing-handlers-in-json.md#static-frequency
- * @param {number} repeat_limit Number of flashes 
+ * @param {number} frequency Number of flash times per second.
  * @constructor
  */
-gamesense.RepeatLimit = function RepeatLimit(repeat_limit) {
+gamesense.Frequency = function Frequency(frequency) {
 
     /**
      * @type {number}
      */
-    this.repeat_limit = repeat_limit;
+    this.frequency = frequency;
 };

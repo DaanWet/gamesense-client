@@ -90,5 +90,9 @@ gamesense.DeviceType = {
      */
     SCREENED: 'screened',
 
-    
+    /**
+     * Currently the only supported tactile feedback device is the Rival 700, which has a single motor for the purpose. 
+     * More zones may be introduced in the future with new devices
+     */
+    TACTILE: 'tactile'
 };

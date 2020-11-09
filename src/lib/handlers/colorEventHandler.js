@@ -43,7 +43,7 @@ gamesense.GameEventHandler = function GameEventHandler(deviceType, zone, color) 
     /**
      * Specifying flash effects
      * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/writing-handlers-in-json.md#specifying-flash-effects
-     * @type {gamesense.FlashEffect}
+     * @type {gamesense.Rate}
      */
     this.rate = null;
     /**
@@ -63,23 +63,7 @@ gamesense.GameEventHandler = function GameEventHandler(deviceType, zone, color) 
         }
 
         if (this.rate) {
-            var f;
-            if (this.rate.frequency.constructor.name === 'FlashFrequency'){
-                f = this.rate.frequency.frequency
-            } else if (this.rate.frequency.constructor.name === 'FrequencyRanges'){
-                f = this.rate.frequency.ranges.map(function f(range){return {low: range.low, high: range.high, frequency:range.freq}})
-            }
-            var data = {
-                frequency: f
-            }
-            if (this.rate.repeat_limit){
-                if (this.rate.repeat_limit.constructor.name === 'RepeatLimit'){
-                    data.repeat_limit = this.rate.repeat_limit.repeat_limit
-                } else if (this.rate.repeat_limit.constructor.name === 'RepeatLimitRanges'){
-                    data.repeat_limit = this.rate.repeat_limit.ranges.map(function f(repeat_limit){return {low: range.low, high: range.high, repeat_limit:repeat_limit.repeat_limit}})
-                }
-            }
-            handlerData.rate = data;
+            handlerData.rate = this.rate.toRateData();
         }
 
         if (this.color.constructor.name === 'GradientColor') {
