@@ -1,6 +1,7 @@
+'use strict';
 /**
- * The root namespace for the eventbus.
- * @namespace cobu
+ * The root namespace.
+ * @namespace gamesense
  */
 /*eslint-disable no-unused-vars */
 var gamesense = {};

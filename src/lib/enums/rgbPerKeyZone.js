@@ -1,3 +1,4 @@
+'use strict';
 /**
  * These zones are named based on the keycaps in the US English layout.
  * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/standard-zones.md#rgb-per-key-zones
@@ -77,6 +78,8 @@ gamesense.RgbPerKeyZone = {
     INSERT: 'insert',
     HOME: 'home',
     PAGE_UP: 'pageup',
+    DELETE: 'delete',
+    END: 'end',
     PAGE_DOWN: 'pagedown',
     RIGHT_ARROW: 'rightarrow',
     LEFT_ARROW: 'leftarrow',
