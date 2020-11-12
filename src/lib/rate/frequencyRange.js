@@ -4,7 +4,7 @@
  * @constructor
  * @param {number} low Minimum value, inclusive.
  * @param {number} high Maximum value, inclusive.
- * @param {gamesense.FlashFrequency} frequency Static Frequency
+ * @param {gamesense.Frequency} frequency Static Frequency
  */
 gamesense.FrequencyRange = function FrequencyRange(low, high, frequency) {
     
@@ -20,7 +20,7 @@ gamesense.FrequencyRange = function FrequencyRange(low, high, frequency) {
     this.high = high;
 
     /**
-     * @type {gamesense.flashFrequency}
+     * @type {gamesense.Frequency}
      */
     this.freq = frequency;
 };

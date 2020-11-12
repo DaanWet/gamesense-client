@@ -19,7 +19,7 @@ gamesense.Rate = function Rate(frequency, repeat_limit){
 
     this.toRateData = function toRateData() {
         var f;
-        if (this.frequency.constructor.name === 'FlashFrequency'){
+        if (this.frequency.constructor.name === 'Frequency'){
             f = this.frequency.frequency
         } else if (this.frequency.constructor.name === 'FrequencyRanges'){
             f = this.frequency.ranges.map(function f(range){return {low: range.low, high: range.high, frequency:range.freq}})

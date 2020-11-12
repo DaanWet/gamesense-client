@@ -68,7 +68,7 @@ gamesense.GameEventHandler = function GameEventHandler(deviceType, zone, color) 
 
         if (this.color.constructor.name === 'GradientColor') {
             handlerData.color = {
-                gradient: handler.color
+                gradient: this.color
             };
         } else if (this.color.constructor.name === 'ColorRanges') {
             handlerData.color = this.color.ranges;

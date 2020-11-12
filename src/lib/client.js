@@ -104,16 +104,43 @@ gamesense.GameClient = function GameClient(game, endpoint) {
      * @param {gamesense.GameEvent} event
      * @returns {Promise} Returns the promise.
      */
-    this.sendGameEventUpdate = function updateGameEvent(event) {
+    function getEventData(event) {
+        var d = {}
+        if (!event.value_optional) {
+            d.value = event.value;
+        }
         var data = {
-            game: game.name,
             event: event.name,
-            data: {
-                value: event.value
-            }
+            data: d
         };
+        return data
+    }
+    this.sendGameEventUpdate = function updateGameEvent(event) {
+        var data = getEventData(event)
+        data.game = this.game.name;
         return post('/game_event', data);
     };
+    this.sendMultipleEventUpdate = function sendMultipleEventUpdate(events) {
+        var options = {
+            host: endpoint.host,
+            port: endpoint.port,
+            path: '/supports_multiple_game_events',
+            method: 'GET',
+        };
+        return http.get(options, function f(m) {
+            if (m.statusCode === 200) {
+                var data = {
+                    game: this.game.name,
+                    events: events.map(function f(event) { return getEventData(event) })
+                }
+                return post('/multiple_game_events', data)
+            } else {
+                for (var e in events) {
+                    this.sendGameEventUpdate(e)
+                }
+            }
+        });
+    }
 
     /**
      * Starts sending Heartbeat/Keepalive events.
