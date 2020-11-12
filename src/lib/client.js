@@ -114,6 +114,20 @@ gamesense.GameClient = function GameClient(game, endpoint) {
         if (!event.value_optional) {
             d.value = event.value;
         }
+        if (event.frame) {
+            if (event.frame.constructor.name === 'Bitmap') {
+                var fd = {
+                    bitmap: event.frame.bitmap
+                }
+                if (event.frame.excluded_events) {
+                    fd['excluded-events'] = event.frame.excluded_events
+                }
+                d.frame = fd
+            } else {
+                d.frame = event.frame
+            }
+
+        }
         var data = {
             event: event.name,
             data: d

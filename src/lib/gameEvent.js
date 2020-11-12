@@ -36,4 +36,9 @@ gamesense.GameEvent = function GameEvent(name) {
      * @type {boolean}
      */
     this.value_optional = false
+
+    /**
+     * @type {gamesense.Bitmap | Object}
+     */
+    this.frame = null
 };
