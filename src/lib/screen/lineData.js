@@ -1,5 +1,6 @@
 'use strict';
 /**
+ * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/json-handlers-screen.md#describing-the-screen-notification
  * @constructor
  * @param {boolean} [progress_bar]
  */

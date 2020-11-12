@@ -1,6 +1,7 @@
 'use strict';
 /**
  * A concrete RepeatLimit range.
+ * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/json-handlers-color.md#ranged-repeat-limit-example
  * @constructor
  * @param {number} low Minimum value, inclusive.
  * @param {number} high Maximum value, inclusive.

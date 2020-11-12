@@ -6,7 +6,7 @@
  * @param {gamesense.ServerEndpoint} endpoint The GameSense(TM) server.
  */
 gamesense.GameClient = function GameClient(game, endpoint) {
-    
+
 
     var http = require('http');
     var Promise = require('promise');
@@ -27,6 +27,7 @@ gamesense.GameClient = function GameClient(game, endpoint) {
 
     /**
      * Register the given game.
+     * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/sending-game-events.md#registering-a-game
      * @returns {Promise} Returns the promise.
      */
     this.registerGame = function registerGame() {
@@ -53,6 +54,7 @@ gamesense.GameClient = function GameClient(game, endpoint) {
     };
 
     /**
+     * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/sending-game-events.md#registering-an-event
      * @param {gamesense.GameEvent} gameEvent
      * @returns {Promise} Returns the promise.
      */
@@ -69,6 +71,7 @@ gamesense.GameClient = function GameClient(game, endpoint) {
     };
 
     /**
+     * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/writing-handlers-in-json.md#removing-an-event
      * @param {gamesense.GameEvent} gameEvent
      * @returns {Promise} Returns the promise.
      */
@@ -82,12 +85,13 @@ gamesense.GameClient = function GameClient(game, endpoint) {
 
     /**
      * Bind handlers for an event.
+     * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/writing-handlers-in-json.md#binding-an-event
      * @param {gamesense.GameEvent} event
      * @param {!Array<gamesense.GameEventHandler>} handlers
      * @returns {Promise} Returns the promise.
      */
     this.bindEvent = function bindEvent(event, handlers) {
-        
+
 
         var data = {
             game: game.name,
@@ -95,7 +99,8 @@ gamesense.GameClient = function GameClient(game, endpoint) {
             min_value: event.minValue,
             max_value: event.maxValue,
             icon_id: event.icon,
-            handlers: handlers.map(function f(handler) {return handler.toHandlerData()})
+            value_optional: event.value_optional,
+            handlers: handlers.map(function f(handler) { return handler.toHandlerData() })
         };
         return post('/bind_game_event', data);
     };
@@ -115,11 +120,21 @@ gamesense.GameClient = function GameClient(game, endpoint) {
         };
         return data
     }
+    /**
+     * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/sending-game-events.md#game-events
+     * @returns {Promise} Returns the promise.
+     * @param {gamesense.GameEvent} event 
+     */
     this.sendGameEventUpdate = function updateGameEvent(event) {
         var data = getEventData(event)
         data.game = this.game.name;
         return post('/game_event', data);
     };
+    /**
+     * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/sending-game-events.md#sending-multiple-event-updates-in-one-request
+     * @returns {Promise} Returns the promise.
+     * @param {Array<GameEvent>} events 
+     */
     this.sendMultipleEventUpdate = function sendMultipleEventUpdate(events) {
         var options = {
             host: endpoint.host,

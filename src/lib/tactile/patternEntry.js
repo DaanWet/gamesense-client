@@ -1,5 +1,6 @@
 'use strict';
 /**
+ * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/json-handlers-tactile.md#static-pattern
  * @constructor
  * @param {!gamesense.VibrationType} type
  * @param {number} [length_ms]

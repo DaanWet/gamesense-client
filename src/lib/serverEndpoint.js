@@ -1,6 +1,7 @@
 'use strict';
 /**
  * The server endpoint configuration.
+ * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/sending-game-events.md#server-discovery
  * @param {string} [url] URL to the HTTP server, like http://127.0.0.1:51248
  * @constructor
  */

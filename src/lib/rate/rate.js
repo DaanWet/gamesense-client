@@ -1,6 +1,7 @@
 'use strict';
 /**
  * A Rate
+ * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/json-handlers-color.md#specifying-flash-effects
  * @param {gamesense.Frequency|gamesense.FrequencyRanges} frequency
  * @param {gamesense.RepeatLimit|gamesense.RepeatLimitRanges} [repeat_limit]
  * @constructor

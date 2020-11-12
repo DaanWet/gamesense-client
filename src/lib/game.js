@@ -1,5 +1,6 @@
 'use strict';
 /**
+ * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/sending-game-events.md#registering-a-game
  * @constructor
  * @param {string} name Use only uppercase A-Z, 0-9, hyphen and underscore characters for the game name.
  * @param {string} [displayName] Optional: The display name of game in the SteelSeries Engine Interface.

@@ -1,5 +1,6 @@
 'use strict';
 /**
+ * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/json-handlers-screen.md#showing-raw-bitmaps
  * @constructor
  * @param {Array<gamesense.LineData>} image_data
  * @param {gamesense.FrameModifiers} [frame_modifiers]

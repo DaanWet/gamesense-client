@@ -2,7 +2,7 @@
 /**
  * Event Icons.
  * Icon will be displayed in SteelSeries(TM) Engine user interface.
- * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/writing-handlers-in-json.md#event-icons
+ * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/event-icons.md
  * @enum {number}
  */
 gamesense.EventIcon = {

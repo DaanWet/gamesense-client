@@ -1,5 +1,6 @@
 'use strict';
 /**
+ * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/sending-game-events.md#game-events
  * @param {string} name
  * @constructor
  */

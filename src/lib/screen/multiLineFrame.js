@@ -1,5 +1,6 @@
 'use strict';
 /**
+ * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/json-handlers-screen.md#static-frame-data
  * @constructor
  * @param {Array<gamesense.LineData>} lines
  * @param {gamesense.FrameModifiers} [frame_modifiers]

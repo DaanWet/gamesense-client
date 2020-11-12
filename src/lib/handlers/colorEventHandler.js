@@ -1,7 +1,7 @@
 'use strict';
 /**
  *
- * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/writing-handlers-in-json.md#binding-an-event
+ * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/json-handlers-color.md#json-color-handlers
  * @constructor
  * @param {gamesense.DeviceType}  [deviceType]
  * @param {string} [zone]
@@ -42,7 +42,7 @@ gamesense.GameEventHandler = function GameEventHandler(deviceType, zone, color) 
 
     /**
      * Specifying flash effects
-     * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/writing-handlers-in-json.md#specifying-flash-effects
+     * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/json-handlers-color.md#specifying-flash-effects
      * @type {gamesense.Rate}
      */
     this.rate = null;

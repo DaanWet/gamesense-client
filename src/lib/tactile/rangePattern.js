@@ -1,6 +1,7 @@
 'use strict';
 
 /**
+ * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/json-handlers-tactile.md#vibration-based-on-ranges
  * @constructor
  * @param {number} low Minimum value, inclusive.
  * @param {number} high Maximum value, inclusive.
