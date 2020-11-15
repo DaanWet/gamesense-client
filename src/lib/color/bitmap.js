@@ -11,7 +11,7 @@ gamesense.Bitmap = function Bitmap(bitarray, excluded_events){
      * @type {Array<Array<number>>}
      * 
      */
-    this.bitmap = bitarray.map(function f(color){return [color.r, color.g, color.b]})
+    this.bitmap = bitarray.map(function f(color){return [color.red, color.green, color.blue]})
 
     /**
      * @type {Array<string>}
