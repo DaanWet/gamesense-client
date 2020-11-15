@@ -49,6 +49,13 @@ gamesense.GameEventHandler = function GameEventHandler(deviceType, zone, color) 
     /**
     * @returns {Object} The gamesense data object representing a handler.
     */
+
+    /**
+     * Defines which color to use from the added frame data in the GameEvent
+     * @type {string}
+     */
+    this.context_frame_key = null
+
     this.toHandlerData = function toHandlerData() {
         var handlerData = {
             zone: this.zone,
@@ -76,6 +83,9 @@ gamesense.GameEventHandler = function GameEventHandler(deviceType, zone, color) 
 
         if (this.customZoneKeys) {
             handlerData['custom-zone-keys'] = this.customZoneKeys;
+        }
+        if (this.context_frame_key && this.mode === gamesense.VisualizationMode.CONTEXT_COLOR){
+            handlerData['context-frame-key'] = this.context_frame_key
         }
 
         return handlerData;

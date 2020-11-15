@@ -141,7 +141,7 @@ gamesense.GameClient = function GameClient(game, endpoint) {
      */
     this.sendGameEventUpdate = function updateGameEvent(event) {
         var data = getEventData(event)
-        data.game = this.game.name;
+        data.game = game.name;
         return post('/game_event', data);
     };
     /**

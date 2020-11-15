@@ -7,5 +7,6 @@
 gamesense.VisualizationMode = {
     COLOR: 'color',
     PERCENT: 'percent',
-    COUNT: 'count'
+    COUNT: 'count',
+    CONTEXT_COLOR: 'context-color'
 };
