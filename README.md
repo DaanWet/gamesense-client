@@ -34,7 +34,7 @@ Examples are not part of the ```npm``` package.
 
 Start with the [**gamesense-sdk**](https://github.com/SteelSeries/gamesense-sdk)
 
-## What's new in 2.0.0
+## What's new in 2.0.1
 
 - Support for SteelSeries GameSense(TM) 3.18.4
 
