@@ -7,7 +7,7 @@
  * @param {Array<gamesense.PatternEntry> | gamesense.RangePattern} [pattern]
  * @param {!gamesense.Rate} [rate]
  */
-gamesense.TactileHandler - function TactileHandler(deviceType, zone, pattern, rate){
+gamesense.TactileEventHandler = function TactileEventHandler(deviceType, zone, pattern, rate){
     /**
      * @type {!gamesense.DeviceType}
      */

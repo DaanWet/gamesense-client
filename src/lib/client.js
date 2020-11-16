@@ -87,7 +87,7 @@ gamesense.GameClient = function GameClient(game, endpoint) {
      * Bind handlers for an event.
      * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/writing-handlers-in-json.md#binding-an-event
      * @param {gamesense.GameEvent} event
-     * @param {!Array<gamesense.GameEventHandler>} handlers
+     * @param {!Array<Object>} handlers
      * @returns {Promise} Returns the promise.
      */
     this.bindEvent = function bindEvent(event, handlers) {

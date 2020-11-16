@@ -5,7 +5,7 @@
  * @param {boolean} [partial_bitmap]
  * @param {Array<GameEvent>} [excluded]
  */
-gamesense.FullColorHandler = function FullColorHandler(partial_bitmap, excluded) {
+gamesense.FullColorEventHandler = function FullColorEventHandler(partial_bitmap, excluded) {
 
 
     /**

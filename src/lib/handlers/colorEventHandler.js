@@ -7,7 +7,7 @@
  * @param {string} [zone]
  * @param {gamesense.Color|gamesense.GradientColor|gamesense.ColorRanges} [color]
  */
-gamesense.GameEventHandler = function GameEventHandler(deviceType, zone, color) {
+gamesense.ColorEventHandler = function ColorEventHandler(deviceType, zone, color) {
 
 
     /**
