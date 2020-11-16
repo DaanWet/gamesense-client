@@ -23,6 +23,7 @@ jobs:
       uses: elstudio/actions-js-build/commit@v3
       with:
         commitMessage: Build Latest Version
+        pushBranch: master
 
   publish-npm:
     needs: grunt-build
