@@ -1,0 +1,31 @@
+name: Node.js Package
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  grunt-build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Compile with Grunt
+      uses: elstudio/actions-js-build/build@v2
+      with:
+        args: 'build'
+    
+    - name: update file and push to remote
+      run: |
+          git config --global user.name "DaanWet"
+          git config --global user.email "daan.wettinck@hotmail.com"
+
+          git add -A
+          git commit -m "Build Latest Version"
+          git push origin HEAD:master
+    #- name: Commit changes
+    #  uses: elstudio/actions-js-build/commit@v3
+    #  with:
+    #    commitMessage: Build Latest Version
