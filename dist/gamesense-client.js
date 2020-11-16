@@ -1,6 +1,6 @@
 /**
  * gamesense-client
- * @version 2.0.0
+ * @version 2.0.1
  * @author Christian Schuller <cschuller>
  * @license MIT
  */
