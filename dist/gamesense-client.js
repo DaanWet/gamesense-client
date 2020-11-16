@@ -37,7 +37,7 @@ var gamesense = {};
  * @param {gamesense.ServerEndpoint} endpoint The GameSense(TM) server.
  */
 gamesense.GameClient = function GameClient(game, endpoint) {
-    
+
 
     var http = require('http');
     var Promise = require('promise');
@@ -58,6 +58,7 @@ gamesense.GameClient = function GameClient(game, endpoint) {
 
     /**
      * Register the given game.
+     * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/sending-game-events.md#registering-a-game
      * @returns {Promise} Returns the promise.
      */
     this.registerGame = function registerGame() {
@@ -84,6 +85,7 @@ gamesense.GameClient = function GameClient(game, endpoint) {
     };
 
     /**
+     * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/sending-game-events.md#registering-an-event
      * @param {gamesense.GameEvent} gameEvent
      * @returns {Promise} Returns the promise.
      */
@@ -100,6 +102,7 @@ gamesense.GameClient = function GameClient(game, endpoint) {
     };
 
     /**
+     * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/writing-handlers-in-json.md#removing-an-event
      * @param {gamesense.GameEvent} gameEvent
      * @returns {Promise} Returns the promise.
      */
@@ -113,12 +116,13 @@ gamesense.GameClient = function GameClient(game, endpoint) {
 
     /**
      * Bind handlers for an event.
+     * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/writing-handlers-in-json.md#binding-an-event
      * @param {gamesense.GameEvent} event
      * @param {!Array<gamesense.GameEventHandler>} handlers
      * @returns {Promise} Returns the promise.
      */
     this.bindEvent = function bindEvent(event, handlers) {
-        
+
 
         var data = {
             game: game.name,
@@ -126,7 +130,8 @@ gamesense.GameClient = function GameClient(game, endpoint) {
             min_value: event.minValue,
             max_value: event.maxValue,
             icon_id: event.icon,
-            handlers: handlers.map(function f(handler) {return handler.toHandlerData()})
+            value_optional: event.value_optional,
+            handlers: handlers.map(function f(handler) { return handler.toHandlerData() })
         };
         return post('/bind_game_event', data);
     };
@@ -135,16 +140,67 @@ gamesense.GameClient = function GameClient(game, endpoint) {
      * @param {gamesense.GameEvent} event
      * @returns {Promise} Returns the promise.
      */
-    this.sendGameEventUpdate = function updateGameEvent(event) {
-        var data = {
-            game: game.name,
-            event: event.name,
-            data: {
-                value: event.value
+    function getEventData(event) {
+        var d = {}
+        if (!event.value_optional) {
+            d.value = event.value;
+        }
+        if (event.frame) {
+            if (event.frame.constructor.name === 'Bitmap') {
+                var fd = {
+                    bitmap: event.frame.bitmap
+                }
+                if (event.frame.excluded_events) {
+                    fd['excluded-events'] = event.frame.excluded_events
+                }
+                d.frame = fd
+            } else {
+                d.frame = event.frame
             }
+
+        }
+        var data = {
+            event: event.name,
+            data: d
         };
+        return data
+    }
+    /**
+     * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/sending-game-events.md#game-events
+     * @returns {Promise} Returns the promise.
+     * @param {gamesense.GameEvent} event 
+     */
+    this.sendGameEventUpdate = function updateGameEvent(event) {
+        var data = getEventData(event)
+        data.game = game.name;
         return post('/game_event', data);
     };
+    /**
+     * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/sending-game-events.md#sending-multiple-event-updates-in-one-request
+     * @returns {Promise} Returns the promise.
+     * @param {Array<GameEvent>} events 
+     */
+    this.sendMultipleEventUpdate = function sendMultipleEventUpdate(events) {
+        var options = {
+            host: endpoint.host,
+            port: endpoint.port,
+            path: '/supports_multiple_game_events',
+            method: 'GET',
+        };
+        return http.get(options, function f(m) {
+            if (m.statusCode === 200) {
+                var data = {
+                    game: this.game.name,
+                    events: events.map(function f(event) { return getEventData(event) })
+                }
+                return post('/multiple_game_events', data)
+            } else {
+                for (var e in events) {
+                    this.sendGameEventUpdate(e)
+                }
+            }
+        });
+    }
 
     /**
      * Starts sending Heartbeat/Keepalive events.
@@ -218,6 +274,26 @@ gamesense.GameClient = function GameClient(game, endpoint) {
     }
 };
 'use strict';
+
+/**
+ * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/json-handlers-full-keyboard-lighting.md
+ * @constructor
+ * @param {Array<gamesense.Color>} bitarray array of length 132
+ * @param {Array<gamesense.GameEvent>} [excluded_events]
+ */
+gamesense.Bitmap = function Bitmap(bitarray, excluded_events){
+    /**
+     * @type {Array<Array<number>>}
+     * 
+     */
+    this.bitmap = bitarray.map(function f(color){return [color.red, color.green, color.blue]})
+
+    /**
+     * @type {Array<string>}
+     */
+    this.excluded_events = excluded_events ? excluded_events.map(function f(event) {return event.name}) : null
+}
+'use strict';
 /**
  * A static color.
  * @param {number} r
@@ -246,6 +322,7 @@ gamesense.Color = function Color(r, g, b) {
 'use strict';
 /**
  * A concrete color range.
+ * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/json-handlers-color.md#color-based-on-ranges
  * @constructor
  * @param {number} low Minimum value, inclusive.
  * @param {number} high Maximum value, inclusive.
@@ -272,6 +349,7 @@ gamesense.ColorRange = function ColorRange(low, high, color) {
 'use strict';
 /**
  * List of color ranges.
+ * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/json-handlers-color.md#color-based-on-ranges
  * @constructor
  * @param {Array<gamesense.ColorRange>} [ranges]
  */
@@ -402,7 +480,7 @@ gamesense.DeviceType = {
 /**
  * Event Icons.
  * Icon will be displayed in SteelSeries(TM) Engine user interface.
- * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/writing-handlers-in-json.md#event-icons
+ * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/event-icons.md
  * @enum {number}
  */
 gamesense.EventIcon = {
@@ -623,7 +701,7 @@ gamesense.RgbPerKeyZone = {
 'use strict';
 /**
  * Each of these types supports up to the number of zones specified in its name.
- * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/standard-zones.md#rgb-1-zone-rgb-2-zone-rgb-3-zone-rgb-5-zone
+ * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/standard-zones.md#static-rgb-zoned-devices-rgb-zoned-device-and-each-individual-type-eg-rgb-1-zone
  * @enum {string}
  */
 gamesense.RgbZone = {
@@ -733,6 +811,7 @@ gamesense.RgbZone = {
 };
 'use strict';
 /**
+ * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/standard-zones.md#screened-screened-widthxheight
  * @enum {string}
  */
 gamesense.ScreenZone = {
@@ -740,6 +819,7 @@ gamesense.ScreenZone = {
 };
 'use strict';
 /**
+ * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/standard-zones.md#tactile
  * @enum {string}
  */
 gamesense.TactileZone = {
@@ -879,16 +959,18 @@ gamesense.VibrationType = {
 'use strict';
 /**
  * It controls the way that the computed color is applied to the LEDs
- * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/writing-handlers-in-json.md#specifying-the-visualization-mode
+ * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/json-handlers-color.md#specifying-the-visualization-mode
  * @enum {string}
  */
 gamesense.VisualizationMode = {
     COLOR: 'color',
     PERCENT: 'percent',
-    COUNT: 'count'
+    COUNT: 'count',
+    CONTEXT_COLOR: 'context-color'
 };
 'use strict';
 /**
+ * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/sending-game-events.md#registering-a-game
  * @constructor
  * @param {string} name Use only uppercase A-Z, 0-9, hyphen and underscore characters for the game name.
  * @param {string} [displayName] Optional: The display name of game in the SteelSeries Engine Interface.
@@ -920,6 +1002,7 @@ gamesense.Game = function Game(name, displayName, developer, deinitialize_timer_
 };
 'use strict';
 /**
+ * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/sending-game-events.md#game-events
  * @param {string} name
  * @constructor
  */
@@ -955,11 +1038,16 @@ gamesense.GameEvent = function GameEvent(name) {
      * @type {boolean}
      */
     this.value_optional = false
+
+    /**
+     * @type {gamesense.Bitmap | Object}
+     */
+    this.frame = null
 };
 'use strict';
 /**
  *
- * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/writing-handlers-in-json.md#binding-an-event
+ * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/json-handlers-color.md#json-color-handlers
  * @constructor
  * @param {gamesense.DeviceType}  [deviceType]
  * @param {string} [zone]
@@ -1000,13 +1088,20 @@ gamesense.GameEventHandler = function GameEventHandler(deviceType, zone, color) 
 
     /**
      * Specifying flash effects
-     * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/writing-handlers-in-json.md#specifying-flash-effects
+     * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/json-handlers-color.md#specifying-flash-effects
      * @type {gamesense.Rate}
      */
     this.rate = null;
     /**
     * @returns {Object} The gamesense data object representing a handler.
     */
+
+    /**
+     * Defines which color to use from the added frame data in the GameEvent
+     * @type {string}
+     */
+    this.context_frame_key = null
+
     this.toHandlerData = function toHandlerData() {
         var handlerData = {
             zone: this.zone,
@@ -1026,7 +1121,7 @@ gamesense.GameEventHandler = function GameEventHandler(deviceType, zone, color) 
 
         if (this.color.constructor.name === 'GradientColor') {
             handlerData.color = {
-                gradient: handler.color
+                gradient: this.color
             };
         } else if (this.color.constructor.name === 'ColorRanges') {
             handlerData.color = this.color.ranges;
@@ -1035,10 +1130,45 @@ gamesense.GameEventHandler = function GameEventHandler(deviceType, zone, color) 
         if (this.customZoneKeys) {
             handlerData['custom-zone-keys'] = this.customZoneKeys;
         }
+        if (this.context_frame_key && this.mode === gamesense.VisualizationMode.CONTEXT_COLOR){
+            handlerData['context-frame-key'] = this.context_frame_key
+        }
 
         return handlerData;
     }
 };
+'use strict';
+/**
+ * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/json-handlers-full-keyboard-lighting.md
+ * @constructor
+ * @param {boolean} [partial_bitmap]
+ * @param {Array<GameEvent>} [excluded]
+ */
+gamesense.FullColorHandler = function FullColorHandler(partial_bitmap, excluded) {
+
+
+    /**
+     * @type {boolean}
+     */
+    this.partial_bitmap = partial_bitmap || false;
+
+
+    /**
+     * @type {Array<GameEvent>}
+     */
+    this.excluded_events = excluded;
+
+    this.toHandlerData = function toHandlerData() {
+        var data = {
+            mode: this.partial_bitmap ? 'partial-bitmap' : 'bitmap',
+            'device-type': 'rgb-per-key-zones'
+        }
+        if (this.excluded_events){
+            data['excluded-events'] = this.excluded_events.map(function f(event) {return event.name})
+        }
+        return data
+    }
+} 
 'use strict';
 /**
  * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/json-handlers-screen.md
@@ -1167,7 +1297,7 @@ gamesense.TactileHandler - function TactileHandler(deviceType, zone, pattern, ra
 'use strict';
 /**
  * A static FlashFrequency.
- * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/writing-handlers-in-json.md#static-frequency
+ * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/json-handlers-color.md#static-frequency
  * @param {number} frequency Number of flash times per second.
  * @constructor
  */
@@ -1181,10 +1311,11 @@ gamesense.Frequency = function Frequency(frequency) {
 'use strict';
 /**
  * A concrete flashfrequency range.
+ * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/json-handlers-color.md#frequency-ranges
  * @constructor
  * @param {number} low Minimum value, inclusive.
  * @param {number} high Maximum value, inclusive.
- * @param {gamesense.FlashFrequency} frequency Static Frequency
+ * @param {gamesense.Frequency} frequency Static Frequency
  */
 gamesense.FrequencyRange = function FrequencyRange(low, high, frequency) {
     
@@ -1200,12 +1331,13 @@ gamesense.FrequencyRange = function FrequencyRange(low, high, frequency) {
     this.high = high;
 
     /**
-     * @type {gamesense.flashFrequency}
+     * @type {gamesense.Frequency}
      */
     this.freq = frequency;
 };'use strict';
 /**
  * List of frequency ranges.
+ * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/json-handlers-color.md#frequency-ranges
  * @constructor
  * @param {Array<gamesense.FrequencyRange>} [ranges]
  */
@@ -1218,6 +1350,7 @@ gamesense.FrequencyRanges = function FrequencyRanges(ranges) {
 'use strict';
 /**
  * A Rate
+ * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/json-handlers-color.md#specifying-flash-effects
  * @param {gamesense.Frequency|gamesense.FrequencyRanges} frequency
  * @param {gamesense.RepeatLimit|gamesense.RepeatLimitRanges} [repeat_limit]
  * @constructor
@@ -1236,7 +1369,7 @@ gamesense.Rate = function Rate(frequency, repeat_limit){
 
     this.toRateData = function toRateData() {
         var f;
-        if (this.frequency.constructor.name === 'FlashFrequency'){
+        if (this.frequency.constructor.name === 'Frequency'){
             f = this.frequency.frequency
         } else if (this.frequency.constructor.name === 'FrequencyRanges'){
             f = this.frequency.ranges.map(function f(range){return {low: range.low, high: range.high, frequency:range.freq}})
@@ -1257,7 +1390,7 @@ gamesense.Rate = function Rate(frequency, repeat_limit){
 'use strict';
 /**
  * A static RepeatLimit.
- * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/writing-handlers-in-json.md#static-frequency
+ * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/json-handlers-color.md#flash-repeat-limit
  * @param {number} repeat_limit number of repeats
  * @constructor
  */
@@ -1271,6 +1404,7 @@ gamesense.RepeatLimit = function RepeatLimit(repeat_limit) {
 'use strict';
 /**
  * A concrete RepeatLimit range.
+ * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/json-handlers-color.md#ranged-repeat-limit-example
  * @constructor
  * @param {number} low Minimum value, inclusive.
  * @param {number} high Maximum value, inclusive.
@@ -1296,6 +1430,7 @@ gamesense.RepeatLimitRange = function RepeatLimitRange(low, high, repeat_limit) 
 };'use strict';
 /**
  * List of repeat limit ranges.
+ * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/json-handlers-color.md#ranged-repeat-limit-example
  * @constructor
  * @param {Array<gamesense.RepeatLimitRange>} [ranges]
  */
@@ -1307,6 +1442,7 @@ gamesense.RepeatLimitRanges = function RepeatLimitRanges(ranges) {
 };
 'use strict';
 /**
+ * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/json-handlers-screen.md#controlling-frame-timing-and-repeating-data
  * @constructor
  * @param {Number} [length_millis]
  * @param {!gamesense.EventIcon} [icon_id]
@@ -1332,6 +1468,7 @@ gamesense.RepeatLimitRanges = function RepeatLimitRanges(ranges) {
  }
 'use strict';
 /**
+ * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/json-handlers-screen.md#showing-raw-bitmaps
  * @constructor
  * @param {Array<gamesense.LineData>} image_data
  * @param {gamesense.FrameModifiers} [frame_modifiers]
@@ -1351,6 +1488,7 @@ gamesense.MultiLineFrame = function MultiLineFrame(image_data, frame_modifiers) 
 
 'use strict';
 /**
+ * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/json-handlers-screen.md#describing-the-screen-notification
  * @constructor
  * @param {boolean} [progress_bar]
  */
@@ -1416,6 +1554,7 @@ gamesense.LineData = function LineData(progress_bar){
 }
 'use strict';
 /**
+ * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/json-handlers-screen.md#static-frame-data
  * @constructor
  * @param {Array<gamesense.LineData>} lines
  * @param {gamesense.FrameModifiers} [frame_modifiers]
@@ -1435,6 +1574,7 @@ gamesense.MultiLineFrame = function MultiLineFrame(lines, frame_modifiers) {
 
 'use strict';
 /**
+ * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/json-handlers-screen.md#ranged-frame-data
  * @constructor
  * @param {number} low Minimum value, inclusive.
  * @param {number} high Maximum value, inclusive.
@@ -1457,7 +1597,8 @@ gamesense.RangeScreenData = function RangeScreenData(low, high, datas) {
 }
 
 'use strict';
-/**
+/** 
+ * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/json-handlers-screen.md#static-frame-data
  * @constructor
  * @param {gamesense.LineData} line_data
  * @param {gamesense.FrameModifiers} [frame_modifiers]
@@ -1476,6 +1617,7 @@ gamesense.SingleLineFrame = function SingleLineFrame(line_data, frame_modifiers)
 'use strict';
 /**
  * The server endpoint configuration.
+ * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/sending-game-events.md#server-discovery
  * @param {string} [url] URL to the HTTP server, like http://127.0.0.1:51248
  * @constructor
  */
@@ -1572,6 +1714,7 @@ gamesense.ServerEndpoint = function ServerEndpoint(url) {
 };
 'use strict';
 /**
+ * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/json-handlers-tactile.md#static-pattern
  * @constructor
  * @param {!gamesense.VibrationType} type
  * @param {number} [length_ms]
@@ -1614,6 +1757,7 @@ gamesense.PatternEntry = function PatternEntry(type, length_ms) {
 'use strict';
 
 /**
+ * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/json-handlers-tactile.md#vibration-based-on-ranges
  * @constructor
  * @param {number} low Minimum value, inclusive.
  * @param {number} high Maximum value, inclusive.
