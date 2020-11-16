@@ -18,12 +18,20 @@ jobs:
       uses: elstudio/actions-js-build/build@v2
       with:
         args: 'build'
+    
+    - name: update file and push to remote
+      run: |
+          git config --global user.name "DaanWet"
+          git config --global user.email "daan.wettinck@hotmail.com"
 
-    - name: Commit changes
-      uses: elstudio/actions-js-build/commit@v3
-      with:
-        commitMessage: Build Latest Version
-        pushBranch: master
+          git add -A
+          git commit -m "Build Latest Version"
+          git push
+    #- name: Commit changes
+    #  uses: elstudio/actions-js-build/commit@v3
+    #  with:
+    #    commitMessage: Build Latest Version
+    
 
   publish-npm:
     needs: grunt-build
