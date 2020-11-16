@@ -159,7 +159,7 @@ gamesense.GameClient = function GameClient(game, endpoint) {
         return http.get(options, function f(m) {
             if (m.statusCode === 200) {
                 var data = {
-                    game: this.game.name,
+                    game: game.name,
                     events: events.map(function f(event) { return getEventData(event) })
                 }
                 return post('/multiple_game_events', data)
