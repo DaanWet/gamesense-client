@@ -26,7 +26,7 @@ jobs:
 
           git add -A
           git commit -m "Build Latest Version"
-          git push
+          git push origin HEAD:master
     #- name: Commit changes
     #  uses: elstudio/actions-js-build/commit@v3
     #  with:
