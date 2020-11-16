@@ -118,7 +118,7 @@ gamesense.GameClient = function GameClient(game, endpoint) {
      * Bind handlers for an event.
      * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/writing-handlers-in-json.md#binding-an-event
      * @param {gamesense.GameEvent} event
-     * @param {!Array<gamesense.GameEventHandler>} handlers
+     * @param {!Array<Object>} handlers
      * @returns {Promise} Returns the promise.
      */
     this.bindEvent = function bindEvent(event, handlers) {
@@ -1053,7 +1053,7 @@ gamesense.GameEvent = function GameEvent(name) {
  * @param {string} [zone]
  * @param {gamesense.Color|gamesense.GradientColor|gamesense.ColorRanges} [color]
  */
-gamesense.GameEventHandler = function GameEventHandler(deviceType, zone, color) {
+gamesense.ColorEventHandler = function ColorEventHandler(deviceType, zone, color) {
 
 
     /**
@@ -1144,7 +1144,7 @@ gamesense.GameEventHandler = function GameEventHandler(deviceType, zone, color) 
  * @param {boolean} [partial_bitmap]
  * @param {Array<GameEvent>} [excluded]
  */
-gamesense.FullColorHandler = function FullColorHandler(partial_bitmap, excluded) {
+gamesense.FullColorEventHandler = function FullColorEventHandler(partial_bitmap, excluded) {
 
 
     /**
@@ -1249,7 +1249,7 @@ gamesense.ScreenEventHandler = function ScreenEventHandler(deviceType, zone){
  * @param {Array<gamesense.PatternEntry> | gamesense.RangePattern} [pattern]
  * @param {!gamesense.Rate} [rate]
  */
-gamesense.TactileHandler - function TactileHandler(deviceType, zone, pattern, rate){
+gamesense.TactileEventHandler = function TactileEventHandler(deviceType, zone, pattern, rate){
     /**
      * @type {!gamesense.DeviceType}
      */
