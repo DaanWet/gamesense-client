@@ -1,9 +1,11 @@
+'use strict';
 /**
+ * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/sending-game-events.md#game-events
  * @param {string} name
  * @constructor
  */
 gamesense.GameEvent = function GameEvent(name) {
-    'use strict';
+    
 
     /**
      * @type {string}
@@ -29,4 +31,14 @@ gamesense.GameEvent = function GameEvent(name) {
      * @type {number}
      */
     this.value = 0;
+
+    /**
+     * @type {boolean}
+     */
+    this.value_optional = false
+
+    /**
+     * @type {gamesense.Bitmap | Object}
+     */
+    this.frame = null
 };

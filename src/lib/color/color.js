@@ -1,3 +1,4 @@
+'use strict';
 /**
  * A static color.
  * @param {number} r
@@ -6,7 +7,7 @@
  * @constructor
  */
 gamesense.Color = function Color(r, g, b) {
-    'use strict';
+    
 
     /**
      * @type {number}
