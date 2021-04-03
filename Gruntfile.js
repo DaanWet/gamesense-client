@@ -48,7 +48,7 @@ module.exports = function grunt(grunt) {
         copy: {
             dist: {
                 files: [
-                    { flatten:true, src: ['LICENSE', '*.bat', '*.sh'], dest: pkgDirectory + '/' }
+                    { flatten: true, src: ['LICENSE', '*.bat', '*.sh'], dest: pkgDirectory + '/' }
                 ]
             }
         },

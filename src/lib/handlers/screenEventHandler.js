@@ -5,7 +5,7 @@
  * @param {gamesense.DeviceType} [deviceType]
  * @param {gamesense.ScreenZone} [zone]
  */
-gamesense.ScreenEventHandler = function ScreenEventHandler(deviceType, zone){
+gamesense.ScreenEventHandler = function ScreenEventHandler(deviceType, zone) {
 
     /**
      * @type {!gamesense.DeviceType}
@@ -32,40 +32,40 @@ gamesense.ScreenEventHandler = function ScreenEventHandler(deviceType, zone){
         handlerData['device-type'] = this.deviceType;
         function toFrameData(frame) {
             var frameData = {};
-            if (frame.frame_modifiers){
-                if (frame.frame_modifiers.length_millis){
+            if (frame.frame_modifiers) {
+                if (frame.frame_modifiers.length_millis) {
                     frameData['length-millis'] = frame.frame_modifiers.length_millis;
                 }
-                if (frame.frame_modifiers.icon_id){
+                if (frame.frame_modifiers.icon_id) {
                     frameData['icon-id'] = frame.frame_modifiers.icon_id;
                 }
-                if (frame.frame_modifiers.repeats){
-                    frameData.repeats = repeats;
+                if (frame.frame_modifiers.repeats) {
+                    frameData.repeats = frame.frame_modifiers.repeats;
                 }
             }
-            if (frame.constructor.name === 'SingleLineFrame'){
-                var lData  = frame.line_data.toLineData()
-                for (var key in lData){
-                    frameData[key] = lData[key]
+            if (frame.constructor.name === 'SingleLineFrame') {
+                var lData = frame.line_data.toLineData();
+                for (var key in lData) {
+                    frameData[key] = lData[key];
                 }
-            } else if (frame.constructor.name === 'MultiLineFrame'){
-                frameData.lines = frame.lines.map(function f(line){ return line.toLineData()})
-            } else if (frame.constructor.name === 'ImageFrame'){
-                frameData['has-text'] = false
-                frameData['image-data'] = frame.image_data
+            } else if (frame.constructor.name === 'MultiLineFrame') {
+                frameData.lines = frame.lines.map(function f(line) { return line.toLineData(); });
+            } else if (frame.constructor.name === 'ImageFrame') {
+                frameData['has-text'] = false;
+                frameData['image-data'] = frame.image_data;
             }
             return frameData;
         }
-        if (this.datas && this.datas.constructor.name === 'RangeScreenData'){
+        if (this.datas && this.datas.constructor.name === 'RangeScreenData') {
             handlerData.datas = {
                 low: this.datas.low,
                 high: this.datas.high,
-                datas: this.datas.datas.map(function f(frame){return toFrameData(frame)})
-            }
-        } else if (this.datas){
-            handlerData.datas = this.datas.map(function f(frame){return toFrameData(frame)})
+                datas: this.datas.datas.map(function f(frame) { return toFrameData(frame); })
+            };
+        } else if (this.datas) {
+            handlerData.datas = this.datas.map(function f(frame) { return toFrameData(frame); });
         }
 
         return handlerData;
-    }
-}
+    };
+};

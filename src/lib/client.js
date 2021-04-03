@@ -100,7 +100,7 @@ gamesense.GameClient = function GameClient(game, endpoint) {
             max_value: event.maxValue,
             icon_id: event.icon,
             value_optional: event.value_optional,
-            handlers: handlers.map(function f(handler) { return handler.toHandlerData() })
+            handlers: handlers.map(function f(handler) { return handler.toHandlerData(); })
         };
         return post('/bind_game_event', data);
     };
@@ -110,7 +110,7 @@ gamesense.GameClient = function GameClient(game, endpoint) {
      * @returns {Promise} Returns the promise.
      */
     function getEventData(event) {
-        var d = {}
+        var d = {};
         if (!event.value_optional) {
             d.value = event.value;
         }
@@ -118,13 +118,13 @@ gamesense.GameClient = function GameClient(game, endpoint) {
             if (event.frame.constructor.name === 'Bitmap') {
                 var fd = {
                     bitmap: event.frame.bitmap
-                }
+                };
                 if (event.frame.excluded_events) {
-                    fd['excluded-events'] = event.frame.excluded_events
+                    fd['excluded-events'] = event.frame.excluded_events;
                 }
-                d.frame = fd
+                d.frame = fd;
             } else {
-                d.frame = event.frame
+                d.frame = event.frame;
             }
 
         }
@@ -132,7 +132,7 @@ gamesense.GameClient = function GameClient(game, endpoint) {
             event: event.name,
             data: d
         };
-        return data
+        return data;
     }
     /**
      * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/sending-game-events.md#game-events
@@ -140,7 +140,7 @@ gamesense.GameClient = function GameClient(game, endpoint) {
      * @param {gamesense.GameEvent} event 
      */
     this.sendGameEventUpdate = function updateGameEvent(event) {
-        var data = getEventData(event)
+        var data = getEventData(event);
         data.game = game.name;
         return post('/game_event', data);
     };
@@ -160,16 +160,16 @@ gamesense.GameClient = function GameClient(game, endpoint) {
             if (m.statusCode === 200) {
                 var data = {
                     game: game.name,
-                    events: events.map(function f(event) { return getEventData(event) })
-                }
-                return post('/multiple_game_events', data)
+                    events: events.map(function f(event) { return getEventData(event); })
+                };
+                return post('/multiple_game_events', data);
             } else {
                 for (var e in events) {
-                    this.sendGameEventUpdate(e)
+                    this.sendGameEventUpdate(e);
                 }
             }
         });
-    }
+    };
 
     /**
      * Starts sending Heartbeat/Keepalive events.
