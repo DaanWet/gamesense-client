@@ -131,7 +131,7 @@ gamesense.GameClient = function GameClient(game, endpoint) {
             max_value: event.maxValue,
             icon_id: event.icon,
             value_optional: event.value_optional,
-            handlers: handlers.map(function f(handler) { return handler.toHandlerData() })
+            handlers: handlers.map(function f(handler) { return handler.toHandlerData(); })
         };
         return post('/bind_game_event', data);
     };
@@ -141,7 +141,7 @@ gamesense.GameClient = function GameClient(game, endpoint) {
      * @returns {Promise} Returns the promise.
      */
     function getEventData(event) {
-        var d = {}
+        var d = {};
         if (!event.value_optional) {
             d.value = event.value;
         }
@@ -149,13 +149,13 @@ gamesense.GameClient = function GameClient(game, endpoint) {
             if (event.frame.constructor.name === 'Bitmap') {
                 var fd = {
                     bitmap: event.frame.bitmap
-                }
+                };
                 if (event.frame.excluded_events) {
-                    fd['excluded-events'] = event.frame.excluded_events
+                    fd['excluded-events'] = event.frame.excluded_events;
                 }
-                d.frame = fd
+                d.frame = fd;
             } else {
-                d.frame = event.frame
+                d.frame = event.frame;
             }
 
         }
@@ -163,7 +163,7 @@ gamesense.GameClient = function GameClient(game, endpoint) {
             event: event.name,
             data: d
         };
-        return data
+        return data;
     }
     /**
      * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/sending-game-events.md#game-events
@@ -171,7 +171,7 @@ gamesense.GameClient = function GameClient(game, endpoint) {
      * @param {gamesense.GameEvent} event 
      */
     this.sendGameEventUpdate = function updateGameEvent(event) {
-        var data = getEventData(event)
+        var data = getEventData(event);
         data.game = game.name;
         return post('/game_event', data);
     };
@@ -191,16 +191,16 @@ gamesense.GameClient = function GameClient(game, endpoint) {
             if (m.statusCode === 200) {
                 var data = {
                     game: game.name,
-                    events: events.map(function f(event) { return getEventData(event) })
-                }
-                return post('/multiple_game_events', data)
+                    events: events.map(function f(event) { return getEventData(event); })
+                };
+                return post('/multiple_game_events', data);
             } else {
                 for (var e in events) {
-                    this.sendGameEventUpdate(e)
+                    this.sendGameEventUpdate(e);
                 }
             }
         });
-    }
+    };
 
     /**
      * Starts sending Heartbeat/Keepalive events.
@@ -1176,7 +1176,7 @@ gamesense.FullColorEventHandler = function FullColorEventHandler(partial_bitmap,
  * @param {gamesense.DeviceType} [deviceType]
  * @param {gamesense.ScreenZone} [zone]
  */
-gamesense.ScreenEventHandler = function ScreenEventHandler(deviceType, zone){
+gamesense.ScreenEventHandler = function ScreenEventHandler(deviceType, zone) {
 
     /**
      * @type {!gamesense.DeviceType}
@@ -1203,43 +1203,43 @@ gamesense.ScreenEventHandler = function ScreenEventHandler(deviceType, zone){
         handlerData['device-type'] = this.deviceType;
         function toFrameData(frame) {
             var frameData = {};
-            if (frame.frame_modifiers){
-                if (frame.frame_modifiers.length_millis){
+            if (frame.frame_modifiers) {
+                if (frame.frame_modifiers.length_millis) {
                     frameData['length-millis'] = frame.frame_modifiers.length_millis;
                 }
-                if (frame.frame_modifiers.icon_id){
+                if (frame.frame_modifiers.icon_id) {
                     frameData['icon-id'] = frame.frame_modifiers.icon_id;
                 }
-                if (frame.frame_modifiers.repeats){
-                    frameData.repeats = repeats;
+                if (frame.frame_modifiers.repeats) {
+                    frameData.repeats = frame.frame_modifiers.repeats;
                 }
             }
-            if (frame.constructor.name === 'SingleLineFrame'){
-                var lData  = frame.line_data.toLineData()
-                for (var key in lData){
-                    frameData[key] = lData[key]
+            if (frame.constructor.name === 'SingleLineFrame') {
+                var lData = frame.line_data.toLineData();
+                for (var key in lData) {
+                    frameData[key] = lData[key];
                 }
-            } else if (frame.constructor.name === 'MultiLineFrame'){
-                frameData.lines = frame.lines.map(function f(line){ return line.toLineData()})
-            } else if (frame.constructor.name === 'ImageFrame'){
-                frameData['has-text'] = false
-                frameData['image-data'] = frame.image_data
+            } else if (frame.constructor.name === 'MultiLineFrame') {
+                frameData.lines = frame.lines.map(function f(line) { return line.toLineData(); });
+            } else if (frame.constructor.name === 'ImageFrame') {
+                frameData['has-text'] = false;
+                frameData['image-data'] = frame.image_data;
             }
             return frameData;
         }
-        if (this.datas && this.datas.constructor.name === 'RangeScreenData'){
+        if (this.datas && this.datas.constructor.name === 'RangeScreenData') {
             handlerData.datas = {
                 low: this.datas.low,
                 high: this.datas.high,
-                datas: this.datas.datas.map(function f(frame){return toFrameData(frame)})
-            }
-        } else if (this.datas){
-            handlerData.datas = this.datas.map(function f(frame){return toFrameData(frame)})
+                datas: this.datas.datas.map(function f(frame) { return toFrameData(frame); })
+            };
+        } else if (this.datas) {
+            handlerData.datas = this.datas.map(function f(frame) { return toFrameData(frame); });
         }
 
         return handlerData;
-    }
-}
+    };
+};
 'use strict';
 /**
  * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/json-handlers-tactile.md
