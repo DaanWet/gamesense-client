@@ -1,6 +1,6 @@
 /**
  * gamesense-client
- * @version 2.0.2
+ * @version 2.0.3
  * @author Christian Schuller <cschuller>
  * @license MIT
  */
@@ -1190,7 +1190,7 @@ gamesense.ScreenEventHandler = function ScreenEventHandler(deviceType, zone) {
 
     //this.mode = 'screen';
     /**
-     * @type {!gamesense.RangeScreenData | Array<gamesense.SingleLineFrame | gamesense.MultiLineFrame | gamesense.ImageFrame>}
+     * @type {Array<gamesense.RangeScreenData> | Array<gamesense.SingleLineFrame | gamesense.MultiLineFrame | gamesense.ImageFrame>}
      */
     this.datas = null;
 
@@ -1201,6 +1201,14 @@ gamesense.ScreenEventHandler = function ScreenEventHandler(deviceType, zone) {
             mode: 'screen'
         };
         handlerData['device-type'] = this.deviceType;
+        function mapRangeScreenData(elem) {
+            return {
+                low: elem.low,
+                high: elem.high,
+                datas: elem.datas.map(function f(frame) { return toFrameData(frame); })
+            };
+        }
+
         function toFrameData(frame) {
             var frameData = {};
             if (frame.frame_modifiers) {
@@ -1227,12 +1235,12 @@ gamesense.ScreenEventHandler = function ScreenEventHandler(deviceType, zone) {
             }
             return frameData;
         }
-        if (this.datas && this.datas.constructor.name === 'RangeScreenData') {
-            handlerData.datas = {
-                low: this.datas.low,
-                high: this.datas.high,
-                datas: this.datas.datas.map(function f(frame) { return toFrameData(frame); })
-            };
+        /*if (this.datas) {
+            const mapper = this.datas[0] isInstanceOf RangeScreenData ?mapRangeScreenData: toFrameData;
+            handlerData.datas = this.datas.map(mapper);
+        }*/
+        if (this.datas && this.datas[0].constructor.name === 'RangeScreenData') {
+            handlerData.datas = this.datas.map(function f(frame) { return mapRangeScreenData(frame); });
         } else if (this.datas) {
             handlerData.datas = this.datas.map(function f(frame) { return toFrameData(frame); });
         }
