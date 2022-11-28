@@ -42,6 +42,18 @@ gamesense.GameClient = function GameClient(game, endpoint) {
     };
 
     /**
+     * Returns the device to its original state.
+     * @returns {Promise} Returns the promise.
+     */
+    this.stopGame = function stopGame() {
+        var data = {
+            game: game.name
+        };
+
+        return post('/stop_game', data);
+    }
+
+    /**
      * As of SteelSeries Engine 3.5.0, you can remove a game you have registered.
      * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/writing-handlers-in-json.md#removing-a-game
      * @returns {Promise} Returns the promise.
