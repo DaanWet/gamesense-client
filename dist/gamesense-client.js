@@ -483,25 +483,25 @@ gamesense.DeviceType = {
     SCREENED: 'screened',
 
     /**
-     * Any connected, supported device that supports notifications on a single OLED or LCD screen.
+     * Any connected, supported device that supports notifications on a single 128x36 OLED or LCD screen.
      * Initially the Rival 700 and Rival 710.
      */
     SCREENED128x36: 'screened-128x36',
 
     /**
-     * Any connected, supported device that supports notifications on a single OLED or LCD screen.
+     * Any connected, supported device that supports notifications on a single 128x40 OLED or LCD screen.
      * Initially the Apex 7, Apex 7 TKL, Apex Pro and Apex Pro TKL.
      */
     SCREENED128x40: 'screened-128x40',
 
     /**
-     * Any connected, supported device that supports notifications on a single OLED or LCD screen.
+     * Any connected, supported device that supports notifications on a single 128x48 OLED or LCD screen.
      * Initially the Arctis Pro Wireless.
      */
     SCREENED128x48: 'screened-128x48',
 
     /**
-     * Any connected, supported device that supports notifications on a single OLED or LCD screen.
+     * Any connected, supported device that supports notifications on a single 128x52 OLED or LCD screen.
      * Initially the GameDAC / Arctis Pro + GameDAC.
      */
     SCREENED128x52: 'screened-128x52',
