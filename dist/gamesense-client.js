@@ -483,6 +483,30 @@ gamesense.DeviceType = {
     SCREENED: 'screened',
 
     /**
+     * Any connected, supported device that supports notifications on a single OLED or LCD screen.
+     * Initially the Rival 700 and Rival 710.
+     */
+    SCREENED128x36: 'screened-128x36',
+
+    /**
+     * Any connected, supported device that supports notifications on a single OLED or LCD screen.
+     * Initially the Apex 7, Apex 7 TKL, Apex Pro and Apex Pro TKL.
+     */
+    SCREENED128x40: 'screened-128x40',
+
+    /**
+     * Any connected, supported device that supports notifications on a single OLED or LCD screen.
+     * Initially the Arctis Pro Wireless.
+     */
+    SCREENED128x48: 'screened-128x48',
+
+    /**
+     * Any connected, supported device that supports notifications on a single OLED or LCD screen.
+     * Initially the GameDAC / Arctis Pro + GameDAC.
+     */
+    SCREENED128x52: 'screened-128x52',
+
+    /**
      * Currently the only supported tactile feedback device is the Rival 700, which has a single motor for the purpose. 
      * More zones may be introduced in the future with new devices
      */
@@ -1202,9 +1226,9 @@ gamesense.ScreenEventHandler = function ScreenEventHandler(deviceType, zone) {
 
     //this.mode = 'screen';
     /**
-     * @type {Array<gamesense.RangeScreenData> | Array<gamesense.SingleLineFrame | gamesense.MultiLineFrame | gamesense.ImageFrame>}
+     * @type {!(Array<gamesense.RangeScreenData> | Array<gamesense.SingleLineFrame | gamesense.MultiLineFrame | gamesense.ImageFrame>)}
      */
-    this.datas = null;
+    this.datas = [];
 
 
     this.toHandlerData = function toHandlerData() {
@@ -1235,26 +1259,31 @@ gamesense.ScreenEventHandler = function ScreenEventHandler(deviceType, zone) {
                 }
             }
             if (frame.constructor.name === 'SingleLineFrame') {
-                var lData = frame.line_data.toLineData();
-                for (var key in lData) {
-                    frameData[key] = lData[key];
+                if (frame.line_data) {
+                    var lData = frame.line_data.toLineData();
+                    for (var key in lData) {
+                        frameData[key] = lData[key];
+                    }
                 }
             } else if (frame.constructor.name === 'MultiLineFrame') {
-                frameData.lines = frame.lines.map(function f(line) { return line.toLineData(); });
+                if (frame.lines) {
+                    frameData.lines = frame.lines.map(function f(line) { return line.toLineData(); });
+                }
             } else if (frame.constructor.name === 'ImageFrame') {
                 frameData['has-text'] = false;
                 frameData['image-data'] = frame.image_data;
             }
             return frameData;
         }
-        /*if (this.datas) {
-            const mapper = this.datas[0] isInstanceOf RangeScreenData ?mapRangeScreenData: toFrameData;
-            handlerData.datas = this.datas.map(mapper);
-        }*/
-        if (this.datas && this.datas[0].constructor.name === 'RangeScreenData') {
-            handlerData.datas = this.datas.map(function f(frame) { return mapRangeScreenData(frame); });
-        } else if (this.datas) {
-            handlerData.datas = this.datas.map(function f(frame) { return toFrameData(frame); });
+
+        if (this.datas) {
+            handlerData.datas = this.datas.map(function f(data) {
+                if (data.constructor.name === 'RangeScreenData') {
+                    return mapRangeScreenData(data);
+                } else {
+                    return toFrameData(data);
+                }
+            });
         }
 
         return handlerData;
@@ -1465,10 +1494,10 @@ gamesense.RepeatLimitRanges = function RepeatLimitRanges(ranges) {
  * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/json-handlers-screen.md#controlling-frame-timing-and-repeating-data
  * @constructor
  * @param {Number} [length_millis]
- * @param {!gamesense.EventIcon} [icon_id]
+ * @param {gamesense.EventIcon} [icon_id]
  * @param {boolean | number} [repeats]
  */
- gamesense.FrameModifiers = function FrameModifiers(length_millis, icon_id, repeats) {
+gamesense.FrameModifiers = function FrameModifiers(length_millis, icon_id, repeats) {
 
     /**
      * @type {Number}
@@ -1484,23 +1513,24 @@ gamesense.RepeatLimitRanges = function RepeatLimitRanges(ranges) {
      *  @type {boolean | Number}
      */
     this.repeats = repeats
-    
- }
+
+}
 'use strict';
 /**
  * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/json-handlers-screen.md#showing-raw-bitmaps
  * @constructor
- * @param {Array<gamesense.LineData>} image_data
+ * @param {!Array<number>} image_data
  * @param {gamesense.FrameModifiers} [frame_modifiers]
  */
-gamesense.MultiLineFrame = function MultiLineFrame(image_data, frame_modifiers) {
+gamesense.ImageFrame = function ImageFrame(image_data, frame_modifiers) {
+
     /**
-    * @type {Array<number>}
-    */
+     * @type {!Array<number>}
+     */
     this.image_data = image_data;
 
     /**
-     * @type {!gamesense.FrameModifiers}
+     * @type {gamesense.FrameModifiers}
      */
     this.frame_modifiers = frame_modifiers;
 
@@ -1580,59 +1610,64 @@ gamesense.LineData = function LineData(progress_bar){
  * @param {gamesense.FrameModifiers} [frame_modifiers]
  */
 gamesense.MultiLineFrame = function MultiLineFrame(lines, frame_modifiers) {
+
     /**
-    * @type {Array<gamesense.LineData>}
-    */
+     * @type {Array<gamesense.LineData>}
+     */
     this.lines = lines;
 
     /**
-     * @type {!gamesense.FrameModifiers}
+     * @type {gamesense.FrameModifiers}
      */
     this.frame_modifiers = frame_modifiers;
+
+}
+'use strict';
+/**
+ * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/json-handlers-screen.md#ranged-frame-data
+ * @constructor
+ * @param {!number} low Minimum value, inclusive.
+ * @param {!number} high Maximum value, inclusive.
+ * @param {!Array<gamesense.SingleLineFrame | gamesense.MultiLineFrame | gamesense.ImageFrame>} datas
+ */
+gamesense.RangeScreenData = function RangeScreenData(low, high, datas) {
+
+    /**
+     * @type {!number}
+     */
+    this.low = low;
+
+    /**
+     * @type {!number}
+     */
+    this.high = high;
+
+    /**
+     * @type {!Array<gamesense.SingleLineFrame | gamesense.MultiLineFrame | gamesense.ImageFrame>}
+     */
+    this.datas = datas;
 
 }
 
 'use strict';
 /**
- * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/json-handlers-screen.md#ranged-frame-data
- * @constructor
- * @param {number} low Minimum value, inclusive.
- * @param {number} high Maximum value, inclusive.
- * @param {Array<gamesense.SingleLineFrame | gamesense.MultiLineFrame | gamesense.ImageFrame>} datas
- */
-gamesense.RangeScreenData = function RangeScreenData(low, high, datas) {
-    /**
-     * @type {number}
-     */
-    this.low = low;
-
-    /**
-     * @type {number}
-     */
-    this.high = high;
-    /**
-     * @type {Array<gamesense.SingleLineFrame | gamesense.MultiLineFrame | gamesense.ImageFrame>}
-     */
-    this.datas = datas
-}
-
-'use strict';
-/** 
  * @see https://github.com/SteelSeries/gamesense-sdk/blob/master/doc/api/json-handlers-screen.md#static-frame-data
  * @constructor
  * @param {gamesense.LineData} line_data
  * @param {gamesense.FrameModifiers} [frame_modifiers]
  */
 gamesense.SingleLineFrame = function SingleLineFrame(line_data, frame_modifiers) {
+
     /**
-     * @type {!gamesense.LineData}
+     * @type {gamesense.LineData}
      */
     this.line_data = line_data;
 
     /**
-     * @type {!gamesense.FrameModifiers}
+     * @type {gamesense.FrameModifiers}
      */
-    this.frame_modifiers = frame_modifiers
+    this.frame_modifiers = frame_modifiers;
+
 }
 'use strict';
 /**
